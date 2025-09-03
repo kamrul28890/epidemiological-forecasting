@@ -3,6 +3,7 @@
 """Create climate lags and rolling windows (index-safe)."""
 import pandas as pd
 
+
 def add_climate_lags_rolls(
     df: pd.DataFrame,
     climate_vars=("rain", "tmean", "humidity", "dewpoint", "soil_moist_0_7cm"),
@@ -30,15 +31,13 @@ def add_climate_lags_rolls(
             continue
         if v == "rain":
             for w in roll_sums:
-                out[f"{v}_rollsum_{w}"] = (
-                    out.groupby("geo_id")[v]
-                       .transform(lambda s: s.rolling(w, min_periods=1).sum())
+                out[f"{v}_rollsum_{w}"] = out.groupby("geo_id")[v].transform(
+                    lambda s: s.rolling(w, min_periods=1).sum()
                 )
         else:
             for w in roll_means:
-                out[f"{v}_rollmean_{w}"] = (
-                    out.groupby("geo_id")[v]
-                       .transform(lambda s: s.rolling(w, min_periods=1).mean())
+                out[f"{v}_rollmean_{w}"] = out.groupby("geo_id")[v].transform(
+                    lambda s: s.rolling(w, min_periods=1).mean()
                 )
 
     return out

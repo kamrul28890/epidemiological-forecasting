@@ -1,4 +1,5 @@
 """Load & normalize cases (stub)."""
+
 """
 Load weekly dengue cases and convert wide → tidy long:
 columns: [geo_id, geo_name, week_start_date, cases]
@@ -6,6 +7,7 @@ columns: [geo_id, geo_name, week_start_date, cases]
 
 import re
 from pathlib import Path
+
 import pandas as pd
 
 # map wide column names → standardized geo_id + pretty name
@@ -20,22 +22,29 @@ GEO_MAP = {
     "barishal_ew_new_cases": ("BAR", "Barishal"),
     "sylhet_ew_new_cases": ("SYL", "Sylhet"),
     # optional aggregates if you want them later:
-    "tot_division_except_dhaka_metro_ew_new_cases": ("NON_DHA_METRO", "All Except Dhaka Metro"),
+    "tot_division_except_dhaka_metro_ew_new_cases": (
+        "NON_DHA_METRO",
+        "All Except Dhaka Metro",
+    ),
     "country_wide_total_ew_new_cases": ("NATIONAL", "Bangladesh Total"),
 }
+
 
 def _normalize(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", s.lower()).strip("_")
 
-def load_cases_wide_to_long(csv_path: str | Path, date_col: str = "date") -> pd.DataFrame:
+
+def load_cases_wide_to_long(
+    csv_path: str | Path, date_col: str = "date"
+) -> pd.DataFrame:
     p = Path(csv_path)
     df = pd.read_csv(p)
     if date_col not in df.columns:
-        raise ValueError(f"Expected date column '{date_col}' in {p.name}; got {df.columns.tolist()}")
+        raise ValueError(
+            f"Expected date column '{date_col}' in {p.name}; got {df.columns.tolist()}"
+        )
     df[date_col] = pd.to_datetime(df[date_col], errors="coerce")
     df["week_start_date"] = df[date_col].dt.to_period("W-SUN").dt.start_time
-
-    
 
     # find case columns that match our GEO_MAP keys
     cols_norm = {c: _normalize(c) for c in df.columns}
@@ -47,11 +56,13 @@ def load_cases_wide_to_long(csv_path: str | Path, date_col: str = "date") -> pd.
             selected.append((inv[norm_key], geo_id, geo_name))
 
     if not selected:
-        raise ValueError("Could not find any known case columns. Check column names or update GEO_MAP.")
+        raise ValueError(
+            "Could not find any known case columns. Check column names or update GEO_MAP."
+        )
 
     out_frames = []
     for orig_col, geo_id, geo_name in selected:
-        tmp = df[[ "week_start_date", orig_col ]].copy()
+        tmp = df[["week_start_date", orig_col]].copy()
         tmp.rename(columns={orig_col: "cases"}, inplace=True)
         tmp["geo_id"] = geo_id
         tmp["geo_name"] = geo_name
@@ -65,6 +76,8 @@ def load_cases_wide_to_long(csv_path: str | Path, date_col: str = "date") -> pd.
     long_df = long_df.dropna(subset=["cases"])
     long_df["cases"] = long_df["cases"].astype(int).clip(lower=0)
     # keep only the 8 primary geos for now
-    keep = {"BAR","CHA","DHA_DIV","DHA_METRO","KHU","MYM","RAJ","RAN","SYL"}
+    keep = {"BAR", "CHA", "DHA_DIV", "DHA_METRO", "KHU", "MYM", "RAJ", "RAN", "SYL"}
     long_df = long_df[long_df["geo_id"].isin(keep)]
-    return long_df[["geo_id","geo_name","week_start_date","cases"]].sort_values(["geo_id","week_start_date"])
+    return long_df[["geo_id", "geo_name", "week_start_date", "cases"]].sort_values(
+        ["geo_id", "week_start_date"]
+    )

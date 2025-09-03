@@ -12,11 +12,12 @@ Notes:
 
 import sys
 from pathlib import Path
+
 import pandas as pd
 
-from dengue.utils.io import load_yaml, resolve_paths
 from dengue.ingest.cases_reader import load_cases_wide_to_long
 from dengue.ingest.weather_reader import load_weather_folder
+from dengue.utils.io import load_yaml, resolve_paths
 
 
 def find_cases_csv(raw_dir: Path) -> Path:
@@ -30,7 +31,9 @@ def find_cases_csv(raw_dir: Path) -> Path:
         hits = sorted(raw_dir.glob(pat))
         if hits:
             return hits[0]
-    raise FileNotFoundError(f"Could not auto-detect cases file in {raw_dir}. Put it there and rerun.")
+    raise FileNotFoundError(
+        f"Could not auto-detect cases file in {raw_dir}. Put it there and rerun."
+    )
 
 
 def main() -> int:
@@ -63,17 +66,22 @@ def main() -> int:
 
     # --- join ---
     print("[build_panel] Joining on (geo_id, week_start_date)…")
-    panel = pd.merge(df_cases, df_wx, on=["geo_id", "geo_name", "week_start_date"], how="left")
+    panel = pd.merge(
+        df_cases, df_wx, on=["geo_id", "geo_name", "week_start_date"], how="left"
+    )
 
     before_n = len(panel)
 
     # Canonicalize to Monday-anchored week starts everywhere
     panel["week_start_date"] = pd.to_datetime(panel["week_start_date"], errors="coerce")
-    panel["week_start_date"] = panel["week_start_date"].dt.to_period("W-SUN").dt.start_time
-    
+    panel["week_start_date"] = (
+        panel["week_start_date"].dt.to_period("W-SUN").dt.start_time
+    )
 
     # Sort & drop any accidental duplicates
-    panel = panel.sort_values(["geo_id", "week_start_date"]).drop_duplicates(["geo_id", "week_start_date"])
+    panel = panel.sort_values(["geo_id", "week_start_date"]).drop_duplicates(
+        ["geo_id", "week_start_date"]
+    )
 
     after_n = len(panel)
 
@@ -81,10 +89,16 @@ def main() -> int:
     def _geo_ok(s: pd.Series) -> bool:
         return bool(s.is_monotonic_increasing and (s.dt.dayofweek == 0).all())
 
-    chk = panel.groupby("geo_id", group_keys=False)["week_start_date"].apply(_geo_ok).rename("ok")
+    chk = (
+        panel.groupby("geo_id", group_keys=False)["week_start_date"]
+        .apply(_geo_ok)
+        .rename("ok")
+    )
     if not chk.all():
         bad = chk[~chk].index.tolist()
-        print(f"[WARN] Non-monotone or non-Monday weeks for geos: {bad}", file=sys.stderr)
+        print(
+            f"[WARN] Non-monotone or non-Monday weeks for geos: {bad}", file=sys.stderr
+        )
 
     # Final date range (after canonicalization)
     global_start = panel["week_start_date"].min()
