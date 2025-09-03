@@ -3,9 +3,3 @@
 *.yml  text eol=lf
 *.yaml text eol=lf
 *.md   text eol=lf
-
-git add .gitattributes
-git commit -m "Fix .gitattributes (LF endings)"
-git add --renormalize .
-git commit -m "Normalize line endings"
-git push
