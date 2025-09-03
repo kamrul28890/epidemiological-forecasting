@@ -1,6 +1,13 @@
 __pycache__/
 .env
 venv/
-mlruns/
-data/
-artifacts/
+
+data/**
+!data/.gitkeep
+!data/README.md
+
+artifacts/**
+!artifacts/.gitkeep
+!artifacts/README.md
+
+mlruns/**
