@@ -1,0 +1,10 @@
+framework: lightgbm
+loss: tweedie
+tweedie_variance_power: 1.3
+num_leaves: 31
+learning_rate: 0.05
+n_estimators: 800
+subsample: 0.8
+colsample_bytree: 0.8
+min_child_samples: 20
+target: log1p

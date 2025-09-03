@@ -1,0 +1,1 @@
+"""Load & normalize cases (stub)."""

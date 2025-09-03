@@ -1,0 +1,5 @@
+seed: 20250903
+device: cpu
+tracking: mlflow
+mlflow_uri: file:./mlruns
+log_level: INFO

@@ -1,0 +1,1 @@
+"""GLM NegBin (stub)."""

@@ -1,0 +1,4 @@
+grid: {p:[0,1,2], d:[0,1], q:[0,1,2], P:[0,1], D:[0,1], Q:[0,1]}
+season_length: 52
+use_exogenous: true
+aic_cap: 1.0e9

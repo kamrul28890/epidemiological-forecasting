@@ -1,0 +1,4 @@
+beta: { form: spline_plus_climate, spline_knots: 6, climate_terms: [rain_roll8, tmean_roll4, humidity_roll4] }
+init_bounds: {S:[0.2,0.9], E:[0.0,0.2], I:[1e-6,0.05], R:[0.0,0.5]}
+optimizer: lbfgs
+bootstrap_draws: 200

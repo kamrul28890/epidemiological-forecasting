@@ -1,0 +1,1 @@
+"""Rolling-origin splits (stub)."""

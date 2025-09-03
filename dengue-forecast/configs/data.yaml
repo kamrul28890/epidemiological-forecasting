@@ -1,0 +1,12 @@
+climate_source: era5_imerg
+spatial_agg: polygon_area_weighted
+pop_weights_path: data/external/pop_weights.csv
+train_start: 2022-01-03
+final_forecast_end: 2025-12-29
+geos: [BAR, CHA, DHA_DIV, DHA_METRO, KHU, MYM, RAJ, RAN, SYL]
+paths:
+  raw: data/raw
+  external: data/external
+  interim: data/interim
+  processed: data/processed
+  artifacts: artifacts

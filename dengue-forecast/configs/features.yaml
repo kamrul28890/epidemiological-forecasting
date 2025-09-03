@@ -1,0 +1,11 @@
+ar_lags: [1,2,3,4,5,6,7,8]
+climate_vars: [rain, tmean, humidity, dewpoint, soil_moist]
+climate_lags: [1,2,3,4,5,6,7,8]
+rolling_means: [2,4,8]
+rolling_sums: [2,4,8]
+interactions: true
+calendar:
+  use_week_of_year: true
+  use_sin_cos: true
+  monsoon_flag: { start: "06-01", end: "10-15" }
+scaling: per_geo

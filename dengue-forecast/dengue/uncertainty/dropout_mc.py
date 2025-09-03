@@ -1,0 +1,1 @@
+"""MC dropout intervals (stub)."""

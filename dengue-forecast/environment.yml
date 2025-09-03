@@ -1,0 +1,21 @@
+name: dengue-forecast
+channels: [conda-forge, defaults]
+dependencies:
+  - python=3.11
+  - pip
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - statsmodels
+  - lightgbm
+  - pytorch
+  - matplotlib
+  - pydantic
+  - pyyaml
+  - mlflow
+  - pytest
+  - black
+  - isort
+  - pip:
+      - ruff

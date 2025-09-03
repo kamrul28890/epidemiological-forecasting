@@ -1,0 +1,2 @@
+figures: [timeseries_per_geo, horizon_fan_charts, with_vs_without_climate, feature_importance_shap, seirs_beta_seasonal]
+tables: [metrics_by_geo_horizon, ablation_climate, pi_coverage]
