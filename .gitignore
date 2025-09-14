@@ -11,3 +11,7 @@ artifacts/**
 !artifacts/README.md
 
 mlruns/**
+
+# local junk
+*.zip
+*.bak

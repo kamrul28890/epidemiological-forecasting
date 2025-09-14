@@ -1,4 +1,25 @@
+# configs/split.yaml
 horizons: [1,2,3,4,5,6,7,8,9,10,11,12]
+
 folds:
-  - { train_end: '2023-12-31', val_end: '2024-12-31' }
-  - { train_end: '2024-12-31', val_end: '2025-06-30' }
+  # Already used
+  - name: F1
+    train_end: 2023-12-31
+    val_end:   2024-12-31
+
+  - name: F2
+    train_end: 2024-12-31
+    val_end:   2025-06-30
+
+  # New ones
+  - name: F3
+    train_end: 2022-12-31
+    val_end:   2023-06-30
+
+  - name: F4
+    train_end: 2023-06-30
+    val_end:   2023-12-31
+
+  - name: F5
+    train_end: 2024-06-30
+    val_end:   2024-12-31

@@ -1,192 +1,230 @@
+#!/usr/bin/env python
 """
-Train LightGBM Tweedie baselines per (geo_id, horizon) using splits.parquet.
+Train a GBM per horizon using the design matrix + rolling-origin splits.
 
 Inputs:
-  - data/processed/design_matrix.parquet  (features at week t)
-  - data/processed/splits.parquet         (maps (geo_id, t, h) -> role + target_week)
+  - data/processed/design_matrix.parquet
+  - data/processed/splits.parquet
 
 Outputs:
-  - artifacts/forecasts/gbm_F{fold}.parquet
-      [geo_id, week_start_date, target_week, horizon, role, y_true, y_pred]
-  - artifacts/tables/metrics_gbm_F{fold}.csv
-      [fold_id, geo_id, horizon, n, MAE, RMSE]
+  - artifacts/forecasts/gbm_<FOLD>.parquet
+  - artifacts/tables/metrics_gbm_<FOLD>.csv
 """
 
+from __future__ import annotations
+
 import argparse
-from pathlib import Path
 
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
 
-DESIGN = Path("data/processed/design_matrix.parquet")
-SPLITS = Path("data/processed/splits.parquet")
-OUT_FORECASTS = Path("artifacts/forecasts")
-OUT_TABLES = Path("artifacts/tables")
+from dengue.utils.io import ensure_dir, load_yaml, resolve_paths
 
 
-def build_xy(design: pd.DataFrame, splits: pd.DataFrame, geo: str, h: int):
-    # feature rows: (geo, week_start_date=t)
-    feats = design.loc[design["geo_id"] == geo].copy()
-
-    # identify numeric feature columns (exclude identifiers)
-    drop_cols = {"geo_id", "geo_name", "week_start_date"}
-    feat_cols = [
-        c
-        for c in feats.columns
-        if c not in drop_cols and pd.api.types.is_numeric_dtype(feats[c])
-    ]
-
-    # split rows for this (geo, horizon)
-    pairs = splits[(splits["geo_id"] == geo) & (splits["horizon"] == h)][
-        ["geo_id", "week_start_date", "target_week", "role", "fold_id", "horizon"]
-    ].copy()
-
-    # join X: (geo, t) → features
-    X = pairs.merge(
-        feats[["geo_id", "week_start_date"] + feat_cols],
-        on=["geo_id", "week_start_date"],
-        how="left",
+def build_argparser() -> argparse.Namespace:
+    ap = argparse.ArgumentParser()
+    ap.add_argument(
+        "--fold",
+        required=True,
+        choices=["F1", "F2", "F3", "F4", "F5"],
+        help="which fold from splits.parquet to train/evaluate",
     )
-
-    # y: cases at target_week
-    y_lookup = design[["geo_id", "week_start_date", "cases"]].rename(
-        columns={"week_start_date": "target_week", "cases": "y_true"}
-    )
-    XY = X.merge(y_lookup, on=["geo_id", "target_week"], how="left")
-
-    # drop rows without target or with any NA in essential features
-    ok = XY.dropna(subset=["y_true"])
-    # LightGBM handles NA in features; keep them
-    return ok, feat_cols
+    return ap.parse_args()
 
 
-def train_one(
-    geo: str, h: int, df: pd.DataFrame, feat_cols: list[str]
-) -> tuple[lgb.LGBMRegressor, dict]:
-    # Basic LightGBM Tweedie (mirrors configs/models/gbm.yaml)
-    params = dict(
-        objective="tweedie",
-        tweedie_variance_power=1.3,
-        learning_rate=0.05,
-        n_estimators=800,
-        num_leaves=31,
-        subsample=0.8,
-        colsample_bytree=0.8,
-        min_child_samples=20,
-        random_state=123,
-    )
-    model = lgb.LGBMRegressor(**params)
+def load_data():
+    cfg = load_yaml("configs/data.yaml")
+    paths = resolve_paths(cfg)
 
-    tr = df[df["role"] == "train"]
-    if tr.empty:
-        return None, {"n_train": 0}
+    processed = paths["processed"]
+    artifacts = paths["artifacts"]
 
-    Xtr = tr[feat_cols]
-    ytr = tr["y_true"].astype(float)
+    # Build paths first; ensure_dir returns None, so don't overwrite the variables
+    forecasts_dir = artifacts / "forecasts"
+    tables_dir = artifacts / "tables"
+    ensure_dir(forecasts_dir)
+    ensure_dir(tables_dir)
 
-    # optional early stopping if we have val rows
-    va = df[df["role"] == "val"]
-    if not va.empty:
-        model.set_params(n_estimators=5000)
-        model.fit(
-            Xtr,
-            ytr,
-            eval_set=[(va[feat_cols], va["y_true"].astype(float))],
-            eval_metric="l2",
-            callbacks=[
-                lgb.early_stopping(100, verbose=False),
-                lgb.log_evaluation(period=100),
-            ],
+    dm = pd.read_parquet(processed / "design_matrix.parquet")
+    dm["week_start_date"] = pd.to_datetime(dm["week_start_date"])
+
+    splits = pd.read_parquet(processed / "splits.parquet")
+    splits["week_start_date"] = pd.to_datetime(splits["week_start_date"])
+    splits["target_week"] = pd.to_datetime(splits["target_week"])
+
+    return dm, splits, forecasts_dir, tables_dir
+
+
+def select_feature_columns(df: pd.DataFrame) -> list[str]:
+    # keep engineered features, drop identifiers + raw target
+    drop = {"geo_id", "geo_name", "week_start_date", "cases"}
+    cols = [c for c in df.columns if c not in drop]
+    # Safety: only numeric columns
+    num = [c for c in cols if pd.api.types.is_numeric_dtype(df[c])]
+    return sorted(num)
+
+
+def metrics_frame(out: pd.DataFrame, source_name: str) -> pd.DataFrame:
+    def _rmse(a: pd.DataFrame) -> float:
+        return float(np.sqrt(np.mean((a["y_true"] - a["y_pred"]) ** 2)))
+
+    def _mae(a: pd.DataFrame) -> float:
+        return float(np.mean(np.abs(a["y_true"] - a["y_pred"])))
+
+    rows = []
+
+    # overall by role
+    for role, g in out.groupby("role"):
+        rows.append(
+            dict(
+                source=source_name,
+                role=role,
+                horizon=np.nan,
+                MAE=_mae(g),
+                RMSE=_rmse(g),
+            )
         )
-    else:
-        model.fit(Xtr, ytr)
 
-    return model, {"n_train": len(tr), "n_val": len(va)}
+    # by role & horizon
+    for (role, h), g in out.groupby(["role", "horizon"]):
+        rows.append(
+            dict(
+                source=source_name,
+                role=role,
+                horizon=int(h),
+                MAE=_mae(g),
+                RMSE=_rmse(g),
+            )
+        )
+
+    return pd.DataFrame(rows)
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument(
-        "--fold", default="F2", help="Fold ID from splits.parquet (e.g., F1 or F2)"
+    args = build_argparser()
+    dm, splits, forecasts_dir, tables_dir = load_data()
+
+    # Which column names the fold?
+    fold_col = "fold" if "fold" in splits.columns else "fold_id"
+
+    # Label table: pull the TARGET label at (geo_id, target_week)
+    label_map = (
+        dm[["geo_id", "week_start_date", "cases"]]
+        .rename(columns={"week_start_date": "target_week", "cases": "y_true"})
+        .copy()
     )
-    args = ap.parse_args()
 
-    OUT_FORECASTS.mkdir(parents=True, exist_ok=True)
-    OUT_TABLES.mkdir(parents=True, exist_ok=True)
+    feat_cols = select_feature_columns(dm)
+    id_cols = ["geo_id", "week_start_date"]
 
-    design = pd.read_parquet(DESIGN)
-    splits = pd.read_parquet(SPLITS)
-    splits = splits[splits["fold_id"] == args.fold].copy()
+    # rows for the requested fold
+    fold_rows = splits[splits[fold_col] == args.fold].copy()
+    horizons = sorted(fold_rows["horizon"].unique())
 
-    geos = sorted(design["geo_id"].unique())
-    horizons = sorted(splits["horizon"].unique())
+    all_out: list[pd.DataFrame] = []
 
-    all_preds = []
-    metrics_rows = []
+    # LightGBM: small-sample-friendly params
+    params = dict(
+        objective="tweedie",  # try "poisson" if strictly integer counts
+        tweedie_variance_power=1.3,  # only used for tweedie
+        metric=["l2"],
+        learning_rate=0.05,
+        n_estimators=400,
+        num_leaves=15,
+        max_depth=3,
+        min_data_in_leaf=5,
+        min_sum_hessian_in_leaf=0.0,
+        min_gain_to_split=0.0,
+        feature_fraction=0.8,
+        bagging_fraction=0.8,
+        bagging_freq=1,
+        lambda_l1=0.0,
+        lambda_l2=0.0,
+        force_col_wise=True,
+        verbose=-1,
+        random_state=42,
+    )
 
-    for g in geos:
-        for h in horizons:
-            XY, feat_cols = build_xy(design, splits, g, h)
-            if XY.empty:
-                continue
+    for h in horizons:
+        S = fold_rows[fold_rows["horizon"] == h].copy()
+        if S.empty:
+            continue
 
-            model, info = train_one(g, h, XY, feat_cols)
-            if model is None:
-                continue
+        # Join feature rows at BASE week
+        base = S.merge(dm[id_cols + feat_cols], on=id_cols, how="left")
 
-            # predictions for both train+val rows
-            XY = XY.copy()
-            XY["y_pred"] = model.predict(XY[feat_cols])
+        # Join labels at TARGET week
+        base = base.merge(label_map, on=["geo_id", "target_week"], how="left")
 
-            # collect forecasts
-            all_preds.append(
-                XY[
-                    [
-                        "geo_id",
-                        "week_start_date",
-                        "target_week",
-                        "horizon",
-                        "role",
-                        "y_true",
-                        "y_pred",
-                    ]
-                ]
+        # Drop rows without label or with any NA features
+        mask_ok = base["y_true"].notna()
+        mask_ok &= base[feat_cols].notna().all(axis=1)
+        base = base.loc[mask_ok].reset_index(drop=True)
+        if base.empty:
+            continue
+
+        X = base[feat_cols]
+        y = base["y_true"].astype(float)
+        role = base["role"]
+
+        X_tr, y_tr = X[role == "train"], y[role == "train"]
+        X_va, y_va = X[role == "val"], y[role == "val"]
+
+        model = lgb.LGBMRegressor(**params)
+
+        # Silence eval logging portably (no verbose= kwarg)
+        if len(X_va) > 0:
+            callbacks = [lgb.early_stopping(50), lgb.log_evaluation(period=0)]
+            model.fit(
+                X_tr,
+                y_tr,
+                eval_set=[(X_va, y_va)],
+                eval_metric="l2",
+                callbacks=callbacks,
             )
+        else:
+            callbacks = [lgb.log_evaluation(period=0)]
+            model.fit(X_tr, y_tr, callbacks=callbacks)
 
-            # metrics by role (simple MAE/RMSE)
-            for role in ["train", "val"]:
-                chunk = XY[XY["role"] == role]
-                if chunk.empty:
-                    continue
-                y = chunk["y_true"].astype(float).to_numpy()
-                p = np.clip(chunk["y_pred"].astype(float).to_numpy(), 0.0, None)
-                mae = np.mean(np.abs(y - p))
-                rmse = float(np.sqrt(np.mean((y - p) ** 2)))
-                metrics_rows.append(
-                    {
-                        "fold_id": args.fold,
-                        "geo_id": g,
-                        "horizon": h,
-                        "role": role,
-                        "n": len(chunk),
-                        "MAE": mae,
-                        "RMSE": rmse,
-                    }
-                )
+        # Predictions for both roles
+        base["y_pred"] = model.predict(X)
+        base["y_pred"] = base["y_pred"].clip(lower=0)  # no negative cases
 
-    if not all_preds:
-        raise SystemExit("No predictions produced. Check splits/design inputs.")
+        all_out.append(
+            base[
+                [
+                    "geo_id",
+                    "week_start_date",
+                    "target_week",
+                    "horizon",
+                    "role",
+                    "y_true",
+                    "y_pred",
+                ]
+            ]
+        )
 
-    preds = pd.concat(all_preds, ignore_index=True)
-    out_fore = OUT_FORECASTS / f"gbm_{args.fold}.parquet"
-    preds.to_parquet(out_fore, index=False)
-    print(f"[gbm] forecasts → {out_fore} ({len(preds):,} rows)")
+    if not all_out:
+        print(f"[gbm] nothing to save for {args.fold}")
+        return
 
-    metr = pd.DataFrame(metrics_rows)
-    out_metrics = OUT_TABLES / f"metrics_gbm_{args.fold}.csv"
-    metr.sort_values(["role", "geo_id", "horizon"]).to_csv(out_metrics, index=False)
-    print(f"[gbm] metrics → {out_metrics}")
+    out = pd.concat(all_out, ignore_index=True)
+
+    # DEFENSIVE: remove accidental duplicates (shouldn’t exist, but safe)
+    keys = ["geo_id", "target_week", "horizon", "role"]
+    out = out.drop_duplicates(keys, keep="last").reset_index(drop=True)
+
+    # Save forecasts
+    fore_path = forecasts_dir / f"gbm_{args.fold}.parquet"
+    out.to_parquet(fore_path, index=False)
+    print(f"[gbm] forecasts → {fore_path} ({len(out):,} rows)")
+
+    # Save metrics
+    m = metrics_frame(out, f"metrics_gbm_{args.fold}.csv")
+    met_path = tables_dir / f"metrics_gbm_{args.fold}.csv"
+    m.to_csv(met_path, index=False)
+    print(f"[gbm] metrics → {met_path}")
 
 
 if __name__ == "__main__":
