@@ -1,2 +1,0 @@
-- ERA5/IMERG primary; POWER fallback
-- Horizons 1–12 weeks

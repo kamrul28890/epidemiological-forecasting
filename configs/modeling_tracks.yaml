@@ -1,0 +1,52 @@
+run_name_prefix: modeling_tracks
+
+hierarchy:
+  parent_geo: DHA_DIV
+  child_geo: DHA_METRO
+  residual_geo_id: DHA_DIV_OUT_METRO
+  residual_geo_name: Dhaka Division Outside Metro
+
+tracks:
+  operational:
+    horizons: [1, 2, 3, 4]
+    include_weather: false
+    models:
+      - persistence
+      - seasonal_naive_52
+      - ar_tweedie_global
+      - panel_hist_gbm
+      - residual_hist_gbm
+      - residual_random_forest
+  experimental:
+    horizons: [5, 6, 7, 8, 9, 10, 11, 12]
+    include_weather: true
+    models:
+      - persistence
+      - seasonal_naive_52
+      - ar_tweedie_global
+      - panel_hist_gbm
+
+features:
+  case_lags: [1, 2, 3, 4, 8, 13, 26, 52]
+  case_roll_mean_windows: [2, 4, 8]
+  climate_vars: [rain, tmean, humidity, dewpoint, soil_moist_0_7cm]
+  climate_lags: [1, 2, 4, 8]
+  climate_roll_mean_windows: [2, 4, 8]
+  climate_roll_sum_windows: [2, 4, 8]
+
+training:
+  random_state: 42
+  min_train_rows_per_horizon: 40
+  tweedie_power: 1.5
+  tweedie_alpha: 0.25
+  hist_gbm_learning_rate: 0.05
+  hist_gbm_max_depth: 3
+  hist_gbm_max_iter: 300
+  hist_gbm_min_samples_leaf: 20
+  residual_hist_gbm_learning_rate: 0.03
+  residual_hist_gbm_max_depth: 3
+  residual_hist_gbm_max_iter: 400
+  residual_hist_gbm_min_samples_leaf: 20
+  rf_n_estimators: 300
+  rf_max_depth: 6
+  rf_min_samples_leaf: 8

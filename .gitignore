@@ -1,4 +1,14 @@
 __pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+.vscode/
 .env
 venv/
 
@@ -15,3 +25,19 @@ mlruns/**
 # local junk
 *.zip
 *.bak
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# imported references and legacy local assets
+archive/imports/**
+references/datasets/**
+references/papers/*.pdf

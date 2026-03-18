@@ -1,0 +1,25 @@
+geo_id,geo_name,origin_week,target_week,horizon,y_pred,model,fit_status,model_rank_from_backtest,is_primary_model
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,15.048663507089298,residual_random_forest,trained_full_history,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,35.61707559041633,residual_random_forest,trained_full_history,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,77.31812574028574,residual_random_forest,trained_full_history,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,123.20573312954484,residual_random_forest,trained_full_history,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,27.106147077710105,ar_tweedie_global,trained_full_history,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,34.77659765761613,ar_tweedie_global,trained_full_history,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,47.08970381464415,ar_tweedie_global,trained_full_history,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,70.19550115020348,ar_tweedie_global,trained_full_history,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,18.19849103639845,residual_hist_gbm,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,24.47924667103179,residual_hist_gbm,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,84.66006580845077,residual_hist_gbm,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,37.89567773790979,residual_hist_gbm,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,8.847083221008916,panel_hist_gbm,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,13.624186772160202,panel_hist_gbm,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,25.364634663108674,panel_hist_gbm,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,52.95954005403252,panel_hist_gbm,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,5457.0,seasonal_naive_52,naive_same_week_last_year,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,6800.0,seasonal_naive_52,naive_same_week_last_year,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,6445.0,seasonal_naive_52,naive_same_week_last_year,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,6772.0,seasonal_naive_52,naive_same_week_last_year,6.0,0.0

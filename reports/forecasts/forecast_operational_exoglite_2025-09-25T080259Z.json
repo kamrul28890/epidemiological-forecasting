@@ -1,0 +1,12 @@
+{
+  "as_of_ceiling": "2025-06-30",
+  "mode": "exoglite",
+  "alpha": 0.5,
+  "locf_cap_weeks": 8,
+  "apply_residual": true,
+  "country_geo": "COUNTRY_TOTAL",
+  "files": {
+    "predictions": "reports\\forecasts\\forecast_operational_exoglite_2025-09-25T080259Z.csv",
+    "metrics": "reports\\metrics\\metrics_operational_exoglite_2025-09-25T080259Z.csv"
+  }
+}

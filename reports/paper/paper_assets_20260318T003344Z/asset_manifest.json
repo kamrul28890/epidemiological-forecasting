@@ -1,0 +1,27 @@
+{
+  "generated_at_utc": "2026-03-18T00:33:45.880244+00:00",
+  "backtest_run_dir": "artifacts\\runs\\modeling_tracks_20260317T035929Z",
+  "forecast_run_dir": "artifacts\\forecasts\\operational_current_20260317T040253Z",
+  "forecast_report_csv": "D:\\My Projects\\dengue-forecast-starter-pack\\reports\\forecasts\\operational_current_operational_current_20260317T040253Z.csv",
+  "tables": [
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_01_study_design.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_02_dataset_summary.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_03_operational_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_04_experimental_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_05_fold_winners.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_06_horizon_winners.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_07_operational_geo_model_summary.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_08_experimental_geo_model_summary.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_09_current_country_forecast.csv",
+    "reports\\paper\\paper_assets_20260318T003344Z\\tables\\table_10_current_primary_forecast.csv"
+  ],
+  "figures": [
+    "reports\\paper\\paper_assets_20260318T003344Z\\figures\\fig_01_operational_leaderboard.png",
+    "reports\\paper\\paper_assets_20260318T003344Z\\figures\\fig_02_operational_horizon_mae.png",
+    "reports\\paper\\paper_assets_20260318T003344Z\\figures\\fig_03_operational_fold_mae_heatmap.png",
+    "reports\\paper\\paper_assets_20260318T003344Z\\figures\\fig_04_operational_geo_mae_heatmap.png",
+    "reports\\paper\\paper_assets_20260318T003344Z\\figures\\fig_05_current_country_forecasts.png",
+    "reports\\paper\\paper_assets_20260318T003344Z\\figures\\fig_s1_experimental_horizon_mae.png"
+  ],
+  "results_snapshot": "reports\\paper\\paper_assets_20260318T003344Z\\results_snapshot.md"
+}

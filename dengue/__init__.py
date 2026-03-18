@@ -1,1 +1,1 @@
-"""Dengue forecast package (starter)."""
+﻿"""Core package for the active dengue forecasting pipeline."""

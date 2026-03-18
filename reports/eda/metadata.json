@@ -1,0 +1,25 @@
+{
+  "n_case_rows_raw": 195,
+  "n_case_rows_long": 1755,
+  "n_weather_rows_long": 1665,
+  "n_panel_rows": 1755,
+  "n_geos": 9,
+  "case_date_min": "2021-12-27",
+  "case_date_max": "2025-09-15",
+  "weather_date_min": "2021-12-20",
+  "weather_date_max": "2025-06-30",
+  "weather_gap_weeks_to_latest_cases": 11,
+  "season_length": 52,
+  "max_climate_lag_tested": 12,
+  "geos": [
+    "BAR",
+    "CHA",
+    "DHA_DIV",
+    "DHA_METRO",
+    "KHU",
+    "MYM",
+    "RAJ",
+    "RAN",
+    "SYL"
+  ]
+}
