@@ -1,0 +1,41 @@
+geo_id,geo_name,origin_week,target_week,horizon,cases,cases_nonzero_recent_4,cases_zero_run_length,cases_weeks_since_nonzero,cases_outbreak_flag_4_8,y_pred,model,fit_status,model_rank_from_backtest,is_primary_model
+BAR,Barishal,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+BAR,Barishal,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+BAR,Barishal,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+BAR,Barishal,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,,,,,,0.0,persistence,naive_current_cases,7.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,,,,,,0.0,persistence,naive_current_cases,7.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,,,,,,0.0,persistence,naive_current_cases,7.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,,,,,,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+KHU,Khulna,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+KHU,Khulna,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+KHU,Khulna,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,0.0,0.0,4.0,4.0,0.0,0.0,persistence,naive_current_cases,7.0,1.0

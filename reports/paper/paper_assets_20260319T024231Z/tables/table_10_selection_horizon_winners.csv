@@ -1,0 +1,5 @@
+track,split_group,horizon,model,MAE_macro,RMSE_macro
+operational,selection,1,residual_random_forest,14.131302434550005,24.977885885996518
+operational,selection,2,panel_hist_gbm,16.286254465788645,31.959493928702152
+operational,selection,3,residual_elastic_net_global,19.653931196843004,40.180997372802246
+operational,selection,4,panel_hist_gbm,17.951055633549178,33.78739637403093

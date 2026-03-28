@@ -14,9 +14,20 @@ tracks:
       - persistence
       - seasonal_naive_52
       - ar_tweedie_global
+      - residual_elastic_net_global
       - panel_hist_gbm
       - residual_hist_gbm
       - residual_random_forest
+      - conservative_stack
+    ensemble:
+      conservative_stack_base_models:
+        - persistence
+        - residual_elastic_net_global
+        - residual_random_forest
+        - residual_hist_gbm
+        - ar_tweedie_global
+      persistence_floor: 0.45
+      inverse_mae_power: 2.0
   experimental:
     horizons: [5, 6, 7, 8, 9, 10, 11, 12]
     include_weather: true
@@ -29,6 +40,12 @@ tracks:
 features:
   case_lags: [1, 2, 3, 4, 8, 13, 26, 52]
   case_roll_mean_windows: [2, 4, 8]
+  case_roll_sum_windows: [2, 4, 8]
+  case_roll_std_windows: [4, 8]
+  growth_lookbacks: [1, 2, 4]
+  outbreak_recent_window: 4
+  outbreak_baseline_window: 8
+  outbreak_threshold_ratio: 1.25
   climate_vars: [rain, tmean, humidity, dewpoint, soil_moist_0_7cm]
   climate_lags: [1, 2, 4, 8]
   climate_roll_mean_windows: [2, 4, 8]
@@ -39,6 +56,9 @@ training:
   min_train_rows_per_horizon: 40
   tweedie_power: 1.5
   tweedie_alpha: 0.25
+  elastic_net_alpha: 0.02
+  elastic_net_l1_ratio: 0.2
+  elastic_net_max_iter: 5000
   hist_gbm_learning_rate: 0.05
   hist_gbm_max_depth: 3
   hist_gbm_max_iter: 300
@@ -50,3 +70,18 @@ training:
   rf_n_estimators: 300
   rf_max_depth: 6
   rf_min_samples_leaf: 8
+  low_origin_guardrail_models:
+    - ar_tweedie_global
+    - residual_elastic_net_global
+    - panel_hist_gbm
+    - residual_hist_gbm
+    - residual_random_forest
+    - conservative_stack
+  low_origin_max_cases: 5
+  low_origin_zero_run_threshold: 2
+  low_origin_weeks_since_nonzero_threshold: 2
+  low_origin_recent_nonzero_max: 1
+  low_origin_min_group_rows: 12
+  low_origin_cap_quantile: 0.9
+  low_origin_sparse_geo_zero_share_threshold: 0.35
+  low_origin_sparse_geo_prob_multiplier: 0.75

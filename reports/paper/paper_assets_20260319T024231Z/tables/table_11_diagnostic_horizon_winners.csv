@@ -1,0 +1,5 @@
+track,split_group,horizon,model,MAE_macro,RMSE_macro
+operational,diagnostic,1,persistence,43.73737373737374,75.1276677058628
+operational,diagnostic,2,persistence,72.73737373737373,108.78565353139368
+operational,diagnostic,3,persistence,107.3838383838384,142.89549200253435
+operational,diagnostic,4,persistence,146.4242424242424,173.42823911263784

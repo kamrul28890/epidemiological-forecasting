@@ -1,0 +1,33 @@
+{
+  "generated_at_utc": "2026-03-19T02:42:33.075286+00:00",
+  "backtest_run_dir": "artifacts\\runs\\modeling_tracks_20260318T234734Z",
+  "forecast_run_dir": "artifacts\\forecasts\\operational_current_20260318T234853Z",
+  "forecast_report_csv": "D:\\My Projects\\dengue-forecast-starter-pack\\reports\\forecasts\\operational_current_operational_current_20260318T234853Z.csv",
+  "tables": [
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_01_study_design.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_02_dataset_summary.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_03_operational_development_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_04_operational_selection_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_05_operational_diagnostic_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_06_experimental_development_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_07_experimental_selection_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_08_experimental_diagnostic_leaderboard.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_09_development_fold_winners.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_10_selection_horizon_winners.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_11_diagnostic_horizon_winners.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_12_operational_geo_model_summary.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_13_experimental_geo_model_summary.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_14_current_country_forecast.csv",
+    "reports\\paper\\paper_assets_20260319T024231Z\\tables\\table_15_current_primary_forecast.csv"
+  ],
+  "figures": [
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_01_operational_selection_leaderboard.png",
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_02_operational_selection_horizon_mae.png",
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_03_operational_development_fold_mae_heatmap.png",
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_04_operational_diagnostic_horizon_mae.png",
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_05_current_country_forecasts.png",
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_s1_experimental_selection_leaderboard.png",
+    "reports\\paper\\paper_assets_20260319T024231Z\\figures\\fig_s2_experimental_diagnostic_leaderboard.png"
+  ],
+  "results_snapshot": "reports\\paper\\paper_assets_20260319T024231Z\\results_snapshot.md"
+}

@@ -12,12 +12,12 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{setspace}
 
-\graphicspath{{paper_assets_20260318T003344Z/figures/}}
+\graphicspath{{paper_assets_20260319T024231Z/figures/}}
 \captionsetup{font=small}
 \setstretch{1.08}
 \hypersetup{colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue}
 
-\title{Operational Weekly Dengue Forecasting in Bangladesh Using Hierarchy-Aware Panel Backtesting: Strong Baselines Remain Hard to Beat}
+\title{Operational Weekly Dengue Forecasting in Bangladesh: Hierarchy-Aware Panel Backtesting Shows Strong Baseline Dominance Under Recent-Window Stress Testing}
 \author{Author names and affiliations to be added}
 \date{\today}
 
@@ -25,45 +25,49 @@
 \maketitle
 
 \begin{abstract}
-\textbf{Background:} Dengue remains a growing public health threat globally and in Bangladesh, where recent outbreaks have been large, geographically widespread, and operationally demanding for the health system \citep{bhatt2013global,zheng2025global,hossain2023twentytwo,who2023bangladesh}. Yet much of the dengue forecasting literature still relies on climate-dominant predictor sets, limited validation, or retrospective study designs that do not map cleanly onto operational forecasting \citep{leung2023systematic}.
+\textbf{Background:} Dengue has become a recurrent national public health threat in Bangladesh, yet many published dengue forecasting studies still emphasize retrospective fit, climate-heavy predictor sets, or limited validation designs that do not map cleanly to operational deployment \citep{bhatt2013global,leung2023systematic,who2023bangladesh}. We therefore reframed the task as weekly short-horizon forecasting of dengue case counts by geography under real surveillance constraints.
 
-\textbf{Methods:} We framed the problem as weekly multi-geography forecasting of dengue case counts in Bangladesh and built a hierarchy-aware panel pipeline over 9 geographic series from 2021-12-27 to 2025-09-15. We repaired an overlapping Dhaka hierarchy by replacing \texttt{DHA\_DIV} with \texttt{DHA\_DIV\_OUT\_METRO}, then evaluated two tracks using direct multi-horizon rolling-origin backtesting: an operational 1--4 week track using case-history and calendar predictors only, and an experimental 5--12 week track that additionally used lagged climate features. Macro-averaged mean absolute error (MAE) across geography and horizon was the primary model-selection criterion.
+\textbf{Methods:} We assembled a weekly panel of 9 Bangladesh geographies from 2021-12-27 to 2025-09-15 and repaired an overlapping Dhaka hierarchy by replacing the original division-level series with a non-overlapping out-of-metro residual geography. We first performed broad exploratory diagnostics, including stationarity tests, seasonal decomposition, autocorrelation analysis, rolling moments, zero-inflation checks, overdispersion summaries, hierarchy checks, and climate lead-lag analysis. We then evaluated two direct multi-horizon forecasting tracks: an operational 1--4 week track using case-history and calendar predictors only, and an experimental 5--12 week track that additionally used lagged climate features. Because the latest 2025 block was used for diagnostic refinement, the evidence hierarchy was refrozen into \emph{development}, \emph{selection}, and \emph{diagnostic} windows rather than a single untouched final holdout. Macro-averaged mean absolute error (MAE) across geography and horizon was the primary metric.
 
-\textbf{Findings:} Exploratory diagnostics showed a difficult but highly structured forecasting problem: zero proportions ranged from 3.1\% to 55.9\%, variance-to-mean ratios ranged from 61.4 to 2797.1, lag-1 autocorrelation ranged from 0.953 to 0.980, and lag-52 autocorrelation was weak to modest. Although all raw series satisfied a combined ADF/KPSS stationarity screen, rolling moments still showed outbreak-driven heteroskedasticity. In the operational track, persistence was the best overall model (MAE 154.218; RMSE 206.390), ahead of residual random forest (MAE 179.371), global Tweedie (MAE 181.767), residual histogram gradient boosting (MAE 183.082), panel histogram gradient boosting (MAE 296.576), and seasonal naive forecasting (MAE 520.177). Persistence also remained the strongest experimental model at horizons 5--12. Climate-augmented models did not outperform persistence in the current data window.
+\textbf{Results:} The panel was highly heterogeneous but strongly structured: zero-week proportions ranged from 3.1\% to 55.9\%, variance-to-mean ratios from 61.4 to 2797.1, lag-1 autocorrelation from 0.953 to 0.980, and lag-52 autocorrelation from $-0.078$ to 0.219. Climate coverage ended 11 weeks before the latest case week for every geography. In operational development folds, a conservative persistence-anchored ensemble was best (MAE 153.448; RMSE 196.133). In the fixed operational selection window, several challengers outperformed persistence, with \texttt{panel\_hist\_gbm} best (MAE 18.429; RMSE 36.923) versus persistence (MAE 33.993; RMSE 61.040). However, in the most recent diagnostic window, persistence again dominated (MAE 92.571; RMSE 125.059) and all challengers deteriorated materially. In the experimental track, \texttt{ar\_tweedie\_global} was best on selection (MAE 35.423), whereas persistence was best on the diagnostic window (MAE 183.073).
 
-\textbf{Interpretation:} Under realistic hierarchy constraints, small-sample weekly surveillance data, major outbreak regime shifts, and incomplete real-time weather coverage, strong autoregressive baselines remain difficult to beat for operational dengue forecasting in Bangladesh. The clearest near-term path is therefore not immediate escalation to more complex architectures, but better regime-aware residual correction, geography-specific error analysis, and improved covariate timeliness.
+\textbf{Interpretation:} The most defensible result is not that one challenger model has already replaced persistence, but that challenger gains are window-dependent and do not yet survive recent-window stress testing. In this data environment, operational dengue forecasting in Bangladesh is governed primarily by short-run case momentum, hierarchy consistency, and robustness under regime shift. Until new post-tuning data are available for a truly untouched final evaluation block, persistence remains the appropriate primary operational forecast.
 \end{abstract}
 
 \section{Introduction}
-Dengue is one of the most important mosquito-borne viral diseases globally, with burden increasing over recent decades and substantial morbidity concentrated in tropical and subtropical settings \citep{bhatt2013global,zheng2025global}. In Bangladesh, dengue has shifted from an episodic concern to a recurrent national public health threat, with increasingly large outbreaks, expanding geographic spread, and growing pressure on hospital services \citep{hossain2023twentytwo}. The 2023 outbreak made the operational challenge especially clear: by 7 August 2023, Bangladesh had already reported 69,483 laboratory-confirmed cases and 327 deaths, with transmission no longer confined to Dhaka and cases accelerating earlier than in typical seasonal surges \citep{who2023bangladesh}.
+Dengue is one of the most important mosquito-borne viral diseases globally, with increasing burden over recent decades and substantial impact in tropical and subtropical countries \citep{bhatt2013global,zheng2025global}. Bangladesh has experienced a marked escalation in dengue burden, with larger outbreaks, broader geographic spread, and increasing operational pressure on hospitals and public health services \citep{hossain2023twentytwo}. The 2023 outbreak made the forecasting problem especially urgent, as transmission expanded beyond Dhaka and accelerated under conditions that challenged routine preparedness assumptions \citep{who2023bangladesh}.
 
-Accurate short-horizon forecasting could support hospital preparedness, situational awareness, and resource allocation. However, dengue forecasting is difficult in practice because the signal is shaped by short-run epidemic momentum, strong spatial heterogeneity, intermittent zeros in lower-burden locations, imperfect seasonality, and often incomplete exogenous data. A recent systematic review of 99 dengue prediction models found heavy reliance on climate predictors, limited external validation, and inconsistent reporting of modeling choices and performance \citep{leung2023systematic}. These shortcomings are especially problematic when the end goal is operational forecasting rather than retrospective fit.
+Short-horizon forecasting could support bed planning, resource allocation, and situational awareness. However, dengue forecasting is difficult in operational settings because the signal is shaped simultaneously by epidemic momentum, spatial heterogeneity, intermittent zeros in lower-burden areas, incomplete exogenous data streams, and abrupt regime shifts. A systematic review of dengue prediction models found heavy reliance on climate predictors, inconsistent validation, and limited evidence of real-world generalization \citep{leung2023systematic}. Those limitations matter most when the goal is deployment rather than retrospective explanation.
 
-Existing forecasting studies in Bangladesh have been useful but still leave an operational gap. Prior work has included national ARIMA-style forecasting and division-level monthly machine learning comparisons \citep{naher2022forecasting,liu2025comparative}. Those studies contributed important early evidence, but they were not designed around weekly geographically disaggregated panel forecasting with hierarchy repair, direct multi-horizon training, and rolling-origin validation focused on operational deployment. More broadly, epidemic forecasting evaluations show that model ranking is horizon-dependent, unstable across validation windows, and highly sensitive to the choice of baseline and scoring design \citep{cramer2022evaluation}.
+Bangladesh-specific forecasting studies have contributed useful evidence, including time-series and machine learning analyses at national or division-level resolution \citep{naher2022forecasting,liu2025comparative}. But an operational gap remains. We were not interested in identifying the most flexible model in the abstract. Instead, we asked a more practical question: for weekly dengue surveillance in Bangladesh, what forecasting formulation is most trustworthy for 1--4 week operational use, and what does a transparent, hierarchy-aware, rolling-origin comparison actually show?
 
-This study addresses that gap. Rather than asking which sophisticated model appears most flexible in principle, we ask a more operational question: given the currently available weekly dengue and climate data in Bangladesh, what forecasting design is most trustworthy for 1--4 week deployment, and what does a robust benchmarking exercise actually reveal? The answer is important whether the result is positive or negative. If complex models provide stable gains, that supports escalation. If they do not, that is still actionable evidence for surveillance operations and for the next round of model development.
+That question is useful whether the answer is positive or negative. If a challenger model provides stable gains, it supports escalation. If strong simple baselines remain dominant after careful diagnostics and realistic backtesting, that is still actionable evidence for both operations and future research. The present study therefore emphasizes honest task framing, data diagnostics, evaluation design, and robustness of conclusions over headline model novelty alone.
 
 \section{Related Work and Study Contribution}
-Three strands of prior work shaped this study. First, dengue forecasting reviews emphasize that many published models rely heavily on climate data, under-document validation procedures, and rarely demonstrate robust real-world generalization \citep{leung2023systematic}. Second, Bangladesh-specific studies have shown that both time-series and machine learning approaches can capture some dengue dynamics, especially at monthly resolution \citep{naher2022forecasting,liu2025comparative}. Third, hierarchical forecasting and outbreak-forecast evaluation research show that forecast design, aggregation logic, and validation strategy matter as much as model class \citep{hyndman2011optimal,hyndman2021forecasting,cramer2022evaluation}.
+Three strands of prior work shaped this study. First, dengue forecasting reviews emphasize the field's dependence on climate-rich predictors and its inconsistent validation practices \citep{leung2023systematic}. Second, Bangladesh-specific studies show that both classical time-series methods and machine learning approaches can capture aspects of dengue dynamics, particularly at monthly resolution \citep{naher2022forecasting,liu2025comparative}. Third, hierarchical forecasting and outbreak-forecast evaluation studies demonstrate that forecast design, aggregation logic, and evaluation windows can matter as much as model class \citep{hyndman2011optimal,hyndman2021forecasting,cramer2022evaluation}.
 
-Against that backdrop, our study makes four concrete contributions.
+Against that background, our study makes five contributions.
 \begin{enumerate}
-    \item It defines the forecasting task explicitly as weekly, multi-geography, multi-horizon count forecasting, with macro-averaged MAE across geography and horizon as the primary model-selection criterion.
-    \item It repairs an overlapping Dhaka geography so that bottom-level modeling and country-level roll-up are coherent.
-    \item It separates modeling into two tracks: an operational track that reflects realistic deployment constraints and an experimental track that tests whether weather adds value at longer horizons.
-    \item It shows, using rolling-origin backtesting, that persistence remains the strongest operational model overall despite several reasonable challenger families.
+    \item It defines the task explicitly as weekly, multi-geography, direct multi-horizon forecasting of dengue case counts.
+    \item It repairs an overlapping Dhaka hierarchy before modeling so that bottom-level series are coherent.
+    \item It documents a broad exploratory diagnostic workflow rather than treating EDA as an unpublished preprocessing step.
+    \item It separates operational and experimental modeling tracks according to what data are truly usable in deployment.
+    \item It shows that model ranking is highly window-dependent: challengers can beat persistence on a fixed selection window, yet persistence remains dominant on the most recent diagnostic stress test.
 \end{enumerate}
 
-That final result is scientifically useful. In applied forecasting, especially in public health, a well-demonstrated negative result can be more informative than a weakly supported positive one. If robust baselines remain dominant after careful diagnostics and backtesting, then the empirical message is that the current data-generating environment rewards simplicity, recency, and stability.
+That last contribution is especially important for an applied forecasting paper. A well-supported robustness result is more useful than an overfit claim of superiority. The present manuscript therefore focuses on what the data actually support, including where the evidence remains provisional.
 
-\section{Data and Forecasting Task}
+\section{Data, Problem Statement, and Scope}
 \subsection{Data Sources}
-Weekly dengue case counts were assembled from Bangladesh surveillance data released through the Directorate General of Health Services. Environmental covariates were aggregated as weekly polygon-area-weighted climate features from the pipeline's configured ERA5/IMERG source. The final case panel covered 2021-12-27 to 2025-09-15, while climate covariates extended from 2021-12-20 to 2025-06-30, leaving an 11-week gap between the latest climate week and the latest case week.
+Weekly dengue case counts were assembled from Bangladesh surveillance releases curated in the project pipeline. Climate covariates were aggregated to weekly geography-level series from the configured ERA5/IMERG workflow. The case panel spans 2021-12-27 to 2025-09-15. Climate covariates span 2021-12-20 to 2025-06-30, leaving an 11-week coverage gap relative to the most recent case observations.
 
-The raw case data contained 195 weekly observations per geographic series and no missing weeks at the weekly panel level. The modeling geography initially included an overlap in which \texttt{DHA\_DIV} contained \texttt{DHA\_METRO}. Because overlapping bottom-level nodes invalidate coherent aggregation, we replaced \texttt{DHA\_DIV} with \texttt{DHA\_DIV\_OUT\_METRO} before modeling. The resulting hierarchy repair had zero closure error.
+Each geography contributed 195 weekly case observations with no missing weeks after weekly aggregation. The original geography set contained an overlap in which the Dhaka division series included Dhaka Metro. Because coherent bottom-level modeling requires disjoint units, we replaced the overlapping division series with an out-of-metro residual geography (\texttt{DHA\_DIV\_OUT\_METRO}). After this repair, the hierarchy closed exactly with zero residual error.
 
-\subsection{Forecasting Task Definition}
-We defined the target as weekly dengue case counts at the \texttt{geo\_id} level on the original count scale. The operational task was 1--4 week forecasting. A secondary experimental task covered 5--12 week forecasting. Forecasts were generated for each geography and horizon, and then evaluated per geography and per horizon before macro-averaging. This choice prevented Dhaka-dominant volumes from masking poor performance in lower-burden regions.
+\subsection{Problem Statement}
+The target variable was weekly dengue case counts at the \texttt{geo\_id} level on the original count scale. We framed the primary task as short-horizon operational forecasting for 1--4 weeks ahead. A secondary experimental task covered 5--12 weeks ahead to test whether lagged climate information might help at longer leads. Forecasts were generated for each geography and horizon, then scored per geography and per horizon before macro-averaging. This design prevented Dhaka-dominant volumes from masking poor performance elsewhere.
+
+\subsection{Scope and Evaluation Philosophy}
+The study was designed for operational realism. That meant prioritizing point forecasting over probabilistic intervals, using only origin-available predictors in the operational track, and ranking models with macro-averaged MAE rather than pooled country-total error. It also meant being conservative about model promotion. Once the latest 2025 block had been used diagnostically to understand failure modes, it could no longer be presented as an untouched final holdout. We therefore refroze the evaluation protocol into evidence tiers rather than overstating certainty.
 
 \begin{table}[H]
 \centering
@@ -85,188 +89,259 @@ Forecast strategy & Direct multi-horizon, not recursive \\
 Operational covariates & Case-history and calendar features only \\
 Experimental covariates & Case-history, calendar, and climate features \\
 Hierarchy repair & \texttt{DHA\_DIV} replaced by \texttt{DHA\_DIV\_OUT\_METRO} \\
+Evidence hierarchy & Development, selection, and diagnostic windows \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\section{Exploratory Diagnostics}
-We conducted a deliberately broad set of diagnostics before model training: missing-week checks, ADF and KPSS stationarity tests, STL decomposition, autocorrelation analysis, rolling moments, zero-inflation summaries, overdispersion checks, cross-geography correlation, hierarchy consistency checks, and climate lead-lag analysis. This diagnostic pass served two purposes. First, it informed model specification. Second, it created an interpretable empirical record for the paper rather than treating EDA as a disposable preprocessing step.
+\begin{table}[H]
+\centering
+\small
+\caption{Refrozen evaluation protocol after diagnostic reuse of the latest 2025 block.}
+\label{tab:evidence-hierarchy}
+\begin{tabular}{@{}p{0.16\textwidth}p{0.24\textwidth}p{0.22\textwidth}p{0.28\textwidth}@{}}
+\toprule
+Tier & Fold(s) & Validation window & Purpose \\
+\midrule
+Development & \texttt{D1--D4} & 2023-01-01 to 2024-12-31 in rolling windows & Model building, debugging, and feature design \\
+Selection & \texttt{S1} & 2025-01-01 to 2025-06-30 & Fixed pre-diagnostic challenger comparison \\
+Diagnostic & \texttt{X1} & 2025-07-01 to 2025-09-15 & Stress testing on the latest available window; not a final untouched lockbox \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-The geography-level series were extremely heterogeneous. After hierarchy repair, mean weekly cases ranged from 10.1 in Sylhet to 1003.5 in Dhaka Metro. Zero-week proportions ranged from 3.1\% in Dhaka Metro to 55.9\% in Sylhet. Variance-to-mean ratios ranged from 61.4 to 2797.1, indicating severe overdispersion across all series. Short-run dependence was strong everywhere: lag-1 autocorrelation ranged from 0.953 to 0.980. By contrast, lag-52 autocorrelation ranged from $-0.078$ to 0.219, indicating that annual repetition existed but was far weaker than immediate autoregressive persistence.
+\section{Exploratory Data Analysis and Time-Series Diagnostics}
+We treated EDA as part of the scientific record rather than as invisible preprocessing. The diagnostic workflow included missing-week checks, combined ADF/KPSS stationarity screening, STL decomposition, autocorrelation functions, rolling means and rolling standard deviations, weekly seasonal profiles, zero-inflation summaries, overdispersion checks, cross-geography correlation, hierarchy checks, and climate lead-lag analysis.
 
-The stationarity screen needs nuance. All nine raw series passed a combined ADF/KPSS rule as stationarity candidates, eight of nine \texttt{log1p}-transformed series also passed, and all nine first-differenced series passed. Formally, that means the data do not behave like textbook unit-root series. Practically, however, rolling means and rolling standard deviations changed sharply through outbreak periods, especially during the 2023 wave. We therefore treated the series as highly persistent, outbreak-driven, and heteroskedastic rather than assuming a simple weak-stationarity regime.
+The panel was heterogeneous in both scale and sparsity. Mean weekly cases ranged from 10.1 in Sylhet to 1003.5 in Dhaka Metro. Zero-week proportions ranged from 3.1\% to 55.9\%. Variance-to-mean ratios ranged from 61.4 to 2797.1, confirming strong overdispersion in every geography. Short-run dependence was very strong, with lag-1 autocorrelation from 0.953 to 0.980. By contrast, lag-52 autocorrelation ranged from $-0.078$ to 0.219, indicating that seasonality existed but was much weaker than recent momentum.
 
-Seasonality was present but not strong enough to dominate the task. Geography-specific peak weeks clustered broadly in the late monsoon and post-monsoon period, while STL decomposition showed seasonal structure of modest strength. Yet the seasonal naive benchmark underperformed severely in the backtests. This was an important negative finding in the EDA stage itself: the data contain seasonal patterning, but the operational problem is governed much more strongly by recent case momentum than by clean annual repetition.
+The stationarity question required nuance. All raw series satisfied the combined ADF/KPSS screening rule as stationarity candidates, eight of nine \texttt{log1p}-transformed series also passed, and all first-differenced series passed. Formally, the series therefore do not look like simple unit-root processes. Practically, however, rolling moments changed sharply through outbreak periods, especially during the 2023 wave. We therefore interpreted the data as outbreak-driven, heteroskedastic, and highly persistent rather than as smoothly weak-stationary in a modeling sense.
 
-Finally, the climate diagnostics were informative but operationally constrained. Dew point, temperature, humidity, rain, and soil moisture showed plausible lead-lag relationships with future cases, often at multiweek lags. However, because climate coverage ended 11 weeks before the latest case week, any operational model that required contemporaneous weather would fail or require imputation precisely where real-time deployment matters most. That observation motivated the separation between operational and experimental modeling tracks.
+Seasonality was real but not dominant enough to drive operational forecasting on its own. Geography-specific peak weeks clustered broadly in the late monsoon and post-monsoon period. STL decomposition showed visible seasonal structure in several geographies, especially Dhaka-centered series and Khulna. Yet the seasonal naive benchmark performed poorly in backtesting. The key EDA implication was that seasonal features were appropriate, but same-week-last-year recurrence was too weak to serve as the primary operational signal.
+
+Climate diagnostics revealed both promise and limitation. Dew point, temperature, humidity, rain, and soil moisture showed plausible lead-lag associations with future cases, often peaking around 8--10 weeks. But climate coverage ended 11 weeks before the latest case week in every geography. This was a pipeline constraint, not a geography-specific issue, and it directly motivated the separation between operational and experimental tracks.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Condensed diagnostic summary of the weekly case panel after hierarchy repair.}
+\label{tab:eda-summary}
+\begin{tabular}{@{}p{0.34\textwidth}p{0.20\textwidth}p{0.34\textwidth}@{}}
+\toprule
+Diagnostic & Observed range or result & Interpretation \\
+\midrule
+Weekly mean cases by geography & 10.1 to 1003.5 & Strong scale imbalance; pooled metrics would be Dhaka-dominated \\
+Zero-week proportion & 3.1\% to 55.9\% & Mix of dense and sparse count processes \\
+Variance-to-mean ratio & 61.4 to 2797.1 & Severe overdispersion beyond simple Poisson assumptions \\
+Lag-1 autocorrelation & 0.953 to 0.980 & Short-run persistence is the dominant predictive signal \\
+Lag-52 autocorrelation & $-0.078$ to 0.219 & Annual repetition exists but is weak to modest \\
+ADF/KPSS screen & 9 of 9 raw series passed & No strong unit-root evidence, but this did not imply stable raw dynamics \\
+Rolling moments & Large shifts during outbreak windows & Practical heteroskedasticity and regime dependence \\
+Climate coverage gap & 11 weeks for every geography & Weather could not be the required real-time production signal \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Methods}
 \subsection{Forecasting Strategy}
-The forecasting system used a direct multi-horizon strategy rather than recursive forecasting \citep{hyndman2021forecasting}. Each horizon had its own prediction rule or trained model. Forecasts at horizon 1 were not fed into horizon 2, horizon 2 forecasts were not fed into horizon 3, and so forth. We chose this strategy because forecast error characteristics differed materially by horizon, and because horizon-specific training makes evaluation easier to interpret under regime shifts.
+We used direct multi-horizon forecasting rather than recursive forecasting \citep{hyndman2021forecasting}. Each horizon had its own prediction rule or fitted model. Forecasts at horizon 1 were not fed into horizon 2, horizon 2 forecasts were not fed into horizon 3, and so on. This choice avoided recursive error accumulation and made horizon-specific behavior easier to interpret in a short, noisy epidemic panel.
 
 \subsection{Dependent Variables}
-Two dependent-variable formulations were used. For direct case models, the response was the future case count,
-\[
-y_{t+h},
-\]
-where $t$ denotes the forecast origin and $h$ the forecast horizon. For residual-correction models, the response was
-\[
-y_{t+h} - y_t,
-\]
-that is, the deviation from the persistence baseline. Residual models therefore learned how future counts depart from the most recent observed weekly count.
+Two target formulations were used.
+\begin{enumerate}
+    \item \textbf{Direct count models:} for models such as \texttt{ar\_tweedie\_global} and \texttt{panel\_hist\_gbm}, the dependent variable was the future observed count,
+    \[
+    y_{t+h},
+    \]
+    where $t$ is the forecast origin and $h$ is the forecast horizon.
+    \item \textbf{Residual correction models:} for the residual boosting, random-forest, and elastic-net models, the dependent variable was the deviation from persistence,
+    \[
+    y_{t+h} - y_t.
+    \]
+    Final forecasts were reconstructed as current observed cases plus the predicted residual correction.
+\end{enumerate}
 
 \subsection{Independent Variables}
-The operational track used only signals that were available in real time at the forecast origin:
+The operational track used only variables available at the forecast origin:
 \begin{itemize}
     \item current weekly cases,
     \item case lags at 1, 2, 3, 4, 8, 13, 26, and 52 weeks,
-    \item rolling means over 2, 4, and 8 weeks,
+    \item rolling case summaries over 2, 4, and 8 weeks,
     \item \texttt{log1p(cases)},
-    \item calendar features including week-of-year, seasonal sine/cosine terms, and a monsoon indicator,
-    \item geography identity as a categorical input in pooled global models.
+    \item calendar features including week-of-year, sine/cosine seasonal terms, and a monsoon indicator,
+    \item geography identity for pooled global models.
 \end{itemize}
 
-The experimental track added lagged and rolled climate variables for rain, near-surface temperature, humidity, dew point, and soil moisture. We deliberately did not make weather a required operational input because of the 11-week climate coverage gap.
+The experimental track added lagged and rolled climate covariates for rain, near-surface temperature, humidity, dew point, and shallow soil moisture. Weather was intentionally excluded from the operational core because of the 11-week coverage gap at the end of the series.
 
 \subsection{Model Ladder}
-The baseline and challenger sequence was chosen to answer an operational question, not merely to maximize model diversity. The ladder consisted of:
+The model ladder was chosen to answer a practical benchmarking question rather than to maximize algorithmic variety.
 \begin{itemize}
-    \item \textbf{Persistence:} future cases equal the latest observed cases.
-    \item \textbf{Seasonal naive$_{52}$:} future cases equal the value observed 52 weeks earlier.
-    \item \textbf{Global Tweedie autoregressive model:} a regularized count model using pooled multi-geography training.
-    \item \textbf{Global histogram gradient boosting model:} a pooled nonlinear count model using lag and calendar features.
-    \item \textbf{Residual histogram gradient boosting:} a persistence-anchored correction model.
-    \item \textbf{Residual random forest:} another persistence-anchored correction model.
+    \item \textbf{Persistence:} future cases equal the latest observed count.
+    \item \textbf{Seasonal naive$_{52}$:} future cases equal the count observed 52 weeks earlier.
+    \item \textbf{AR Tweedie global:} a pooled autoregressive count model using lag and calendar features.
+    \item \textbf{Panel HistGBM:} a pooled nonlinear model fit directly on future counts.
+    \item \textbf{Residual HistGBM:} a persistence-anchored boosting model fit on residual departures from the naive baseline.
+    \item \textbf{Residual random forest:} a second persistence-anchored residual model.
+    \item \textbf{Residual elastic net global:} a pooled regularized linear residual model.
+    \item \textbf{Conservative stack:} a nonnegative horizon-specific ensemble anchored to persistence and weighted using development-fold MAE.
 \end{itemize}
 
-Deep learning models were not included in the primary operational ladder. With only 195 weekly observations per series and 9 geographic series overall, this dataset is small for high-capacity sequence models, making overfitting a more likely immediate outcome than stable operational gain. Those models remain candidates for later experimental work, but not for first-line operational promotion.
+We deliberately did not make deep learning part of the primary operational ladder. With only 195 weekly observations per series and 9 series overall, high-capacity sequence models are more likely to overfit than to provide stable operational gains at this stage.
 
-\subsection{Validation Design and Metrics}
-We used five rolling-origin folds spanning both relatively calm windows and outbreak-heavy validation windows. Fold F4 was especially important because it isolates the second half of 2023, when the epidemic regime changed sharply. This design follows the logic of outbreak forecasting evaluation in which performance must be judged across multiple temporal contexts rather than on a single hold-out block \citep{cramer2022evaluation}.
+\subsection{Operational Safeguards and Diagnostic Refinement}
+Trainable models were subject to stability guards. Fits that produced implausibly explosive forecasts relative to the observed training range were reverted to persistence. After the initial challenger pass, we also investigated recent-window failure modes and added low-origin guardrails so that some models would not overpredict rebounds immediately after zero or near-zero origins. Those diagnostic refinements improved specific error regimes, but because they used the latest 2025 data diagnostically, that window could no longer be treated as a final untouched holdout. This is why the manuscript reports a refrozen evidence hierarchy rather than a single definitive post-tuning test.
 
-The primary metric was macro-averaged MAE across geography and horizon. RMSE was the secondary metric. Metrics were computed per geography and per horizon, then averaged. Pooled totals were retained for descriptive use only and were not used as the primary model-selection rule.
-
-\subsection{Operational Stability Guard}
-We added a simple but important operational safeguard. For trainable models, predictions were checked against the scale of the training data. If a fitted model produced implausibly explosive forecasts relative to the observed training range, that fit was logged as unstable and the corresponding predictions were reverted to the persistence baseline. This design choice is less glamorous than unrestricted model fitting, but it is more consistent with a deployable forecasting system.
+\subsection{Metrics}
+The primary outcome was macro-averaged MAE across geography and horizon. RMSE was secondary. Metrics were computed per geography and per horizon before averaging. Pooled totals were retained for descriptive use only and were not used for model promotion.
 
 \section{Results}
-\subsection{Operational Track: Overall Ranking}
-Table~\ref{tab:operational-leaderboard} summarizes the main operational results. Persistence remained the best overall model, with macro-averaged MAE 154.218 and RMSE 206.390. The closest challenger was the residual random forest, followed by the global Tweedie model and the residual histogram gradient boosting model. Seasonal naive forecasting performed dramatically worse than all operational alternatives.
+\subsection{Development-Fold Behavior}
+Across the four development folds, the operational model ranking favored the conservative stack overall (MAE 153.448; RMSE 196.133), followed by persistence (MAE 167.212; RMSE 216.485), residual random forest (MAE 170.061), and AR Tweedie global (MAE 175.108). This indicated that persistence-anchored residual learning was a plausible improvement path during model development.
+
+At the fold level, however, no single challenger dominated all regimes. The development heatmap shows that some models won calm windows while others were stronger under outbreak-heavy conditions. This was the first warning that global average performance could mask substantial temporal instability.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.74\textwidth]{fig_03_operational_development_fold_mae_heatmap.png}
+\caption{Operational development-fold MAE. Model ranking changes across windows, indicating that apparent gains during model building are regime-dependent rather than universal.}
+\label{fig:development-folds}
+\end{figure}
+
+\subsection{Operational Selection Window}
+The fixed operational selection window produced the most encouraging challenger results. The best model was panel HistGBM (MAE 18.429; RMSE 36.923), followed closely by the residual elastic-net model (MAE 18.829; RMSE 35.618) and the global AR Tweedie model (MAE 19.901; RMSE 35.575). Persistence ranked seventh on MAE (33.993) in this window. The selection result therefore showed that the dataset does contain learnable structure beyond pure persistence.
 
 \begin{table}[H]
 \centering
-\caption{Operational validation leaderboard. Metrics are macro-averaged across geography and horizon.}
-\label{tab:operational-leaderboard}
+\caption{Operational leaderboard on the fixed selection window (2025-01-01 to 2025-06-30).}
+\label{tab:operational-selection}
 \begin{tabular}{lrr}
 \toprule
 Model & MAE & RMSE \\
 \midrule
-Persistence & 154.218 & 206.390 \\
-Residual random forest & 179.371 & 234.354 \\
-AR Tweedie global & 181.767 & 241.761 \\
-Residual HistGBM & 183.082 & 249.362 \\
-Panel HistGBM & 296.576 & 367.618 \\
-Seasonal naive$_{52}$ & 520.177 & 714.417 \\
+\texttt{panel\_hist\_gbm} & 18.429 & 36.923 \\
+\texttt{residual\_elastic\_net\_global} & 18.829 & 35.618 \\
+\texttt{ar\_tweedie\_global} & 19.901 & 35.575 \\
+\texttt{conservative\_stack} & 23.887 & 43.383 \\
+\texttt{residual\_random\_forest} & 25.216 & 44.040 \\
+\texttt{residual\_hist\_gbm} & 31.902 & 59.994 \\
+\texttt{persistence} & 33.993 & 61.040 \\
+\texttt{seasonal\_naive\_52} & 39.410 & 77.366 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{fig_01_operational_leaderboard.png}
-\caption{Operational validation leaderboard. Persistence remained the strongest overall operational model.}
-\label{fig:operational-leaderboard}
+\includegraphics[width=0.90\textwidth]{fig_01_operational_selection_leaderboard.png}
+\caption{Operational selection leaderboard. Several challengers outperform persistence convincingly in the fixed pre-diagnostic comparison window.}
+\label{fig:selection-leaderboard}
 \end{figure}
 
-This result should not be misread as saying that all model-based challengers failed uniformly. Rather, no challenger provided consistent enough improvement across geographies, horizons, and folds to displace persistence as the operational default. In an operational setting, that distinction matters more than occasional fold wins.
-
-\subsection{Horizon-Specific Performance}
-Persistence was the best model at every operational horizon. Its macro-averaged MAE increased from 76.0 at horizon 1 to 227.3 at horizon 4, reflecting the expected degradation in short-term predictability as the lead time expands. This pattern is consistent with broader epidemic forecasting experience, where near-term accuracy decays with horizon even under strong models \citep{cramer2022evaluation}.
+Selection-window horizon winners also varied by lead time: residual random forest was best at horizon 1, panel HistGBM at horizons 2 and 4, and residual elastic net at horizon 3. This supported the idea that different model families captured different local regimes within the same window.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\textwidth]{fig_02_operational_horizon_mae.png}
-\caption{Operational MAE by horizon. Persistence remains the best model from 1 to 4 weeks ahead, although all models degrade with lead time.}
-\label{fig:operational-horizon}
+\includegraphics[width=0.82\textwidth]{fig_02_operational_selection_horizon_mae.png}
+\caption{Operational selection-window MAE by horizon. Challenger wins were not confined to a single lead time.}
+\label{fig:selection-horizon}
 \end{figure}
 
-The horizon result is important because it rules out a common fallback interpretation, namely that complex models may still have been winning at the longest short-term horizons. They were not. Within the 1--4 week operational window, persistence remained the best performer at each horizon considered separately.
+\subsection{Operational Diagnostic Window}
+The story changed sharply on the most recent diagnostic window. Here persistence regained clear dominance, with MAE 92.571 and RMSE 125.059. The next-best model was the conservative stack at MAE 177.161, followed by seasonal naive$_{52}$ at 226.465. All other challengers were materially worse. Persistence also won every diagnostic operational horizon, from 1 week ahead (MAE 43.737) through 4 weeks ahead (MAE 146.424).
 
-\subsection{Fold-Level and Geography-Level Heterogeneity}
-The fold breakdown was more nuanced than the overall ranking. In folds F1, F2, and F5, the global histogram gradient boosting model achieved the lowest fold-level MAE. In fold F3, persistence performed best. In fold F4, which captures the second half of 2023 and therefore the major outbreak regime, the residual histogram gradient boosting model was the fold winner. Nevertheless, persistence remained the most stable model overall because it did not collapse catastrophically when the data-generating regime changed.
+\begin{table}[H]
+\centering
+\caption{Operational leaderboard on the diagnostic window (2025-07-01 to 2025-09-15).}
+\label{tab:operational-diagnostic}
+\begin{tabular}{lrr}
+\toprule
+Model & MAE & RMSE \\
+\midrule
+\texttt{persistence} & 92.571 & 125.059 \\
+\texttt{conservative\_stack} & 177.161 & 209.539 \\
+\texttt{seasonal\_naive\_52} & 226.465 & 283.906 \\
+\texttt{residual\_random\_forest} & 238.695 & 299.302 \\
+\texttt{residual\_elastic\_net\_global} & 247.707 & 286.439 \\
+\texttt{panel\_hist\_gbm} & 280.907 & 349.719 \\
+\texttt{ar\_tweedie\_global} & 288.643 & 328.117 \\
+\texttt{residual\_hist\_gbm} & 303.688 & 404.871 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.72\textwidth]{fig_03_operational_fold_mae_heatmap.png}
-\caption{Operational MAE by fold. Challenger models can win in specific windows, but their gains are not stable enough across folds to overtake persistence overall.}
-\label{fig:operational-folds}
+\includegraphics[width=0.82\textwidth]{fig_04_operational_diagnostic_horizon_mae.png}
+\caption{Operational diagnostic-window MAE by horizon. Persistence is the best model at every operational lead time in the latest stress-test window.}
+\label{fig:diagnostic-horizon}
 \end{figure}
 
-Geography-level performance told a similarly informative story. Persistence was best in Barishal, Chattogram, Dhaka Metro, Khulna, and Sylhet. The Tweedie model marginally outperformed persistence in \texttt{DHA\_DIV\_OUT\_METRO}, Mymensingh, Rajshahi, and Rangpur. That pattern suggests that regularized count models may be especially promising in lower-volume or sparser regional series, even though they did not win the overall operational leaderboard. Interestingly, the residual random forest finished second overall without being the best model in any single geography, indicating broad but insufficient improvement over the pooled error surface.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.78\textwidth]{fig_04_operational_geo_mae_heatmap.png}
-\caption{Operational MAE by geography. Scale imbalance is substantial, and some challenger models are more competitive in lower-volume geographies than in Dhaka-dominant series.}
-\label{fig:operational-geo}
-\end{figure}
+This disagreement between selection and diagnostic evidence is the central empirical result of the study. If we had stopped at the selection window, we could have claimed challenger superiority. But once the recent diagnostic window is included honestly, the more defensible conclusion is that challenger gains are not yet robust enough for operational promotion.
 
 \subsection{Experimental Track}
-The experimental track extended the horizon to 5--12 weeks and added lagged climate features. Yet persistence again remained the best overall model, with MAE 403.016 and RMSE 510.986. The best experimental challenger was the global histogram gradient boosting model, followed by seasonal naive and the global Tweedie model.
+The experimental 5--12 week track told a similar story. On the fixed selection window, the global AR Tweedie model was best (MAE 35.423; RMSE 61.112), narrowly ahead of panel HistGBM (MAE 36.231), while persistence performed poorly (MAE 178.336). On the diagnostic window, however, persistence was again best (MAE 183.073; RMSE 199.499), ahead of seasonal naive$_{52}$ (MAE 195.636), with climate-augmented challengers degrading sharply.
 
 \begin{table}[H]
 \centering
-\caption{Experimental validation leaderboard.}
-\label{tab:experimental-leaderboard}
-\begin{tabular}{lrr}
+\caption{Experimental track leaderboards on the selection and diagnostic windows.}
+\label{tab:experimental-results}
+\begin{tabular}{llrr}
 \toprule
-Model & MAE & RMSE \\
+Window & Model & MAE & RMSE \\
 \midrule
-Persistence & 403.016 & 510.986 \\
-Panel HistGBM & 516.184 & 692.385 \\
-Seasonal naive$_{52}$ & 521.907 & 716.453 \\
-AR Tweedie global & 540.113 & 714.009 \\
+Selection & \texttt{ar\_tweedie\_global} & 35.423 & 61.112 \\
+Selection & \texttt{panel\_hist\_gbm} & 36.231 & 65.192 \\
+Selection & \texttt{seasonal\_naive\_52} & 39.410 & 77.366 \\
+Selection & \texttt{persistence} & 178.336 & 300.890 \\
+\midrule
+Diagnostic & \texttt{persistence} & 183.073 & 199.499 \\
+Diagnostic & \texttt{seasonal\_naive\_52} & 195.636 & 232.594 \\
+Diagnostic & \texttt{ar\_tweedie\_global} & 537.848 & 680.006 \\
+Diagnostic & \texttt{panel\_hist\_gbm} & 673.757 & 861.092 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The experimental result does not imply that climate is irrelevant to dengue. Instead, it shows that the current climate-augmented forecasting setup did not yield an operationally superior predictive system. That may reflect several factors at once: incomplete real-time climate coverage, short sample length, nonstationary outbreak regimes, and the fact that strong recent case history already explains much of the short-to-medium-horizon signal.
+This does not imply that climate is irrelevant to dengue transmission. Rather, it shows that the current climate-augmented forecasting setup does not produce a robust operational advantage under the available coverage window and sample size.
 
-\subsection{Training Interpretation and Model Failure Modes}
-The model comparisons also exposed distinct failure modes. The free-running global histogram gradient boosting model could be highly competitive in calmer windows but was much less reliable under large regime shifts. The global Tweedie model was comparatively strong in several lower-volume geographies, but occasionally required the operational stability guard. The residual-correction models were more stable than the unconstrained panel GBM and are therefore attractive future candidates, but they still did not beat persistence overall.
+\subsection{Interpretation of Model Behavior}
+The model ladder revealed distinct behavioral patterns. The conservative stack was the strongest model during development because it stayed close to persistence while borrowing controlled signal from challenger models. Panel HistGBM and elastic-net residual correction were strong on the selection window, which suggests the presence of meaningful nonlinear and linearizable deviations from persistence. Yet those gains did not survive the latest diagnostic window. This is exactly the kind of instability that a top-line leaderboard can conceal.
 
-This is a useful finding for manuscript interpretation. The main obstacle is not the absence of any predictive structure beyond persistence. Rather, it is the difficulty of converting that extra structure into a model that improves robustly across all the conditions represented in the validation folds.
+The failure-mode analysis also showed that trainable models were vulnerable to rebound overprediction after low-count origins and to degradation under regime shifts. Guardrails reduced those specific failure modes, but they did not overturn the diagnostic dominance of persistence. The central issue is therefore not that challengers have no signal. It is that the signal they capture is not yet stable enough across temporal regimes.
 
-\subsection{Illustrative Current Forecast}
-Because persistence remained the strongest operational model, it was selected as the current primary forecasting rule for the latest available origin week, 2025-09-15. At the country-total level, the persistence forecast was 0.0 for horizons 1--4, reflecting zero observed bottom-level counts at the most recent origin. Challenger models allowed modest rebounds, ranging from 15.0 to 123.2 by horizon 4 for the residual random forest and from 27.1 to 70.2 for the Tweedie model, whereas seasonal naive implied an implausibly large rebound based on the previous year.
+\subsection{Current Operational Forecast}
+Because there is no longer a truly untouched post-tuning holdout and persistence remained dominant on the diagnostic window, the live forecasting policy remained conservative. The system uses the selection window for challenger ranking, but it does not auto-promote a challenger without a new untouched final block. As a result, the current primary model for the origin week 2025-09-15 is persistence.
+
+At the country-total level, the persistence forecast is 0.0 for horizons 1--4, reflecting zero observed bottom-level counts at the latest origin. Challengers allow small to moderate rebounds, ranging from 0.8 to 27.9 for the conservative stack and panel HistGBM, while seasonal naive$_{52}$ produces implausibly large values anchored to the previous year's outbreak season.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\textwidth]{fig_05_current_country_forecasts.png}
-\caption{Illustrative current operational forecast at the latest origin week. The selected primary forecast remains the persistence baseline.}
+\caption{Illustrative current country-total forecasts from the refrozen protocol. Persistence remains the promoted primary model because challenger ranking is based on the selection window only and there is no new untouched final block for promotion.}
 \label{fig:current-forecast}
 \end{figure}
 
 \section{Discussion}
-This study was designed to answer a practical forecasting question under real operational constraints, and the main result is straightforward: persistence remains the strongest short-horizon weekly dengue forecasting model overall in the current Bangladesh panel. That is not a trivial result. In a field where more complex models are often assumed to be inherently better, this study shows that once hierarchy consistency, rolling-origin validation, geography-level scoring, and real-time covariate availability are taken seriously, the best model may still be the strongest simple baseline.
+This study set out to answer an operational forecasting question rather than a model-novelty question. The answer is more nuanced than a simple leaderboard win. The data clearly contain structure beyond persistence: multiple challengers improved materially on the fixed selection window, and the development folds supported persistence-anchored residual learning. However, the most recent diagnostic window still strongly favored persistence. That means the strongest scientific claim is about robustness, not about premature model replacement.
 
-The result is scientifically important for three reasons. First, it shows that the dominant predictive signal in the current data is short-run autoregressive momentum, not long-memory annual repetition. Second, it demonstrates that plausible climate associations do not automatically translate into operational forecasting gains when the covariate stream is incomplete at the most recent dates. Third, it suggests that the most promising model-development path is not unrestricted complexity, but persistence-anchored residual learning that preserves the strongest baseline while modeling controlled deviations from it.
+Several insights follow from this result. First, the dominant short-horizon signal in the current Bangladesh panel is recent case momentum. That conclusion is supported jointly by the EDA, the poor seasonal-naive performance, and the continued diagnostic dominance of persistence. Second, the presence of plausible climate associations does not automatically translate into operational forecasting gains when the climate data stream is incomplete at the point of deployment. Third, model development should focus less on free-running complexity and more on controlled deviation from persistence, regime awareness, and sparse-series behavior.
 
-The fold- and geography-level analyses sharpen that interpretation. Several challengers were genuinely competitive. The global histogram gradient boosting model won multiple folds. The residual histogram gradient boosting model performed best during the major outbreak fold. The Tweedie model was strongest in several lower-volume geographies. These are not signs of model irrelevance. They are signs that the underlying signal is heterogeneous and regime-dependent, and that the missing ingredient is robustness rather than raw flexibility.
+The divergence between selection and diagnostic windows also has methodological implications. In outbreak forecasting, model ranking is often window-dependent \citep{cramer2022evaluation}. Our results show this clearly. Had we reported only the selection window, the paper would have favored panel HistGBM or elastic-net residual correction. By preserving the diagnostic record and refreezing the protocol after diagnostic reuse, we instead show how fragile those gains are under the latest available conditions. That makes the paper stronger, not weaker.
 
-For a public health manuscript, the operational implication is clear. If a model is to be used for short-horizon dengue preparedness in Bangladesh today, it should not require fresh weather data that are not consistently available, and it should not be promoted merely because it wins in a single fold or on pooled national totals. It should beat persistence repeatedly, across lead times and across both Dhaka-dominant and sparse peripheral geographies. At present, no challenger meets that standard.
+For public health practice, the immediate implication is conservative but actionable: a simple, transparent persistence baseline remains the safest current operational model for 1--4 week weekly dengue forecasting in Bangladesh. Challengers should continue to be developed, but they should not replace persistence until they can win on a newly frozen untouched future block.
 
 \section{Limitations}
-This study has several limitations. First, the available time series remain short for modern multi-series forecasting, with only 195 weekly observations per geography. Second, a few large outbreak windows contribute disproportionately to the signal, making generalization challenging. Third, climate covariates ended 11 weeks before the latest case week, limiting their operational usefulness despite plausible lead-lag relationships. Fourth, the current study focused on point forecasting; interval prediction and calibrated probabilistic forecasts remain future work. Finally, although rolling-origin backtesting is far more realistic than a single random split, the study is still limited to one national surveillance system and has not yet undergone external validation in a separate country or institutional deployment setting.
+This study has several limitations. First, the panel is still short for high-capacity multi-series forecasting, with only 195 weekly observations per geography. Second, a small number of large outbreak windows contribute heavily to the overall signal. Third, the climate series end 11 weeks before the latest case week, which sharply limits operational weather use. Fourth, the present analysis focused on point forecasting; calibrated uncertainty quantification remains future work. Fifth, once the latest 2025 block had been used for post-hoc diagnostic refinement, no fully untouched final holdout remained within the available data. Consequently, challenger gains in this paper should be interpreted as promising but not yet final. Sixth, the study is based on one national surveillance system and has not yet been externally validated in a separate country or institutional deployment context.
 
 \section{Conclusion}
-We reframed dengue forecasting in Bangladesh as a hierarchy-aware, weekly, multi-geography count forecasting problem and evaluated a transparent model ladder using rolling-origin backtesting. The clearest result is that persistence remains the strongest operational 1--4 week model overall. More flexible challengers, especially persistence-anchored residual models and pooled count models, show localized promise but do not yet deliver stable enough gains for operational promotion. The practical next step is therefore not simply to add more model capacity. It is to improve data timeliness, build regime-aware residual features, perform deeper geography-level error analysis, and then retest whether any challenger can beat persistence under the same rigorous evaluation design.
+We reframed dengue forecasting in Bangladesh as a hierarchy-aware, weekly, multi-geography count forecasting problem and evaluated a transparent ladder of baselines and challenger models under rolling-origin backtesting. The data exhibit strong persistence, substantial overdispersion, mixed sparsity, weak-to-moderate annual seasonality, and incomplete recent climate coverage. Under those conditions, several challengers outperform persistence on a fixed selection window, but persistence remains dominant on the most recent diagnostic stress test. The most defensible operational conclusion is therefore conservative: persistence should remain the primary model until new post-tuning data permit a truly untouched final evaluation block. The most promising next research steps are regime-aware residual correction, sparse-series hurdle formulations, improved real-time covariate availability, and future evaluation under a newly frozen holdout window.
 
 \section*{Data Availability}
-The processed datasets, artifact bundles, figures, and manuscript assets used in this study are archived in the project repository. Access to upstream raw surveillance and environmental sources should remain subject to the original data providers' access terms and reporting policies.
+Processed datasets, artifact bundles, figures, and manuscript assets used in this study are archived in the project repository. Access to upstream raw surveillance and environmental data should remain subject to the original providers' terms and reporting policies.
 
 \section*{Code Availability}
-All code used to construct the hierarchy-fixed panel, run exploratory diagnostics, execute rolling-origin backtests, generate operational forecasts, and build manuscript figures and tables is available in the accompanying project repository.
+All code used to construct the hierarchy-fixed panel, run EDA, execute rolling-origin backtests, generate current forecasts, and build manuscript figures and tables is available in the accompanying project repository.
 
 \section*{Competing Interests}
 The authors declare that they have no competing interests.
@@ -279,8 +354,8 @@ Acknowledgements to be added.
 
 % Journal-porting notes:
 % 1. Once a target journal is selected, migrate this source into the journal's LaTeX template.
-% 2. Add venue-specific abstract structure, author blocks, data/code statements, and reference style.
-% 3. Consider moving the illustrative current forecast subsection to the Supplement if the target venue prefers a leaner main text.
+% 2. Add venue-specific abstract structure, word limits, author blocks, and reference style.
+% 3. If the target journal prefers leaner main-text Results, move the current forecast illustration and some window-specific tables to the Supplement.
 
 \bibliographystyle{unsrtnat}
 \bibliography{references}

@@ -1,0 +1,5 @@
+track,split_group,model,role,n_groups,MAE_macro,RMSE_macro,bias_macro
+experimental,development,persistence,val,288,444.1588590963606,560.2554378826926,36.47908058690532
+experimental,development,panel_hist_gbm,val,288,460.4104338721549,585.6442687628545,210.18652468528677
+experimental,development,ar_tweedie_global,val,288,508.583088294952,638.8304040833477,-62.08580213335453
+experimental,development,seasonal_naive_52,val,288,527.5892822765863,677.2367724821413,51.45945395731687

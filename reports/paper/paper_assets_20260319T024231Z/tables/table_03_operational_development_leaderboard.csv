@@ -1,0 +1,9 @@
+track,split_group,model,role,n_groups,MAE_macro,RMSE_macro,bias_macro
+operational,development,conservative_stack,val,144,153.44832695151777,196.1333721496684,-11.047333741651109
+operational,development,persistence,val,144,167.212371824979,216.48467004141216,2.366243905439256
+operational,development,residual_random_forest,val,144,170.06124246492968,220.9619711683804,-22.591596922013817
+operational,development,ar_tweedie_global,val,144,175.1076111121032,226.4182251571219,-13.404462855136009
+operational,development,residual_hist_gbm,val,144,176.8693936577392,229.5154364036657,-3.34857151466922
+operational,development,residual_elastic_net_global,val,144,208.6990350965068,282.5583753253402,-54.79556305003309
+operational,development,panel_hist_gbm,val,144,351.07093342136307,428.0543339825402,303.5377128839578
+operational,development,seasonal_naive_52,val,144,525.4260079508856,674.692011967847,49.29249674411963

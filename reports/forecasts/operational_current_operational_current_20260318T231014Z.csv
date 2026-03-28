@@ -1,0 +1,321 @@
+geo_id,geo_name,origin_week,target_week,horizon,y_pred,model,fit_status,model_rank_from_backtest,is_primary_model
+BAR,Barishal,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+BAR,Barishal,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+BAR,Barishal,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+BAR,Barishal,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+KHU,Khulna,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+KHU,Khulna,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+KHU,Khulna,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,0.0,persistence,naive_current_cases,1.0,1.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.0,persistence,naive_current_cases,1.0,1.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,0.0,persistence,naive_current_cases,1.0,1.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,0.0,persistence,naive_current_cases,1.0,1.0
+BAR,Barishal,2025-09-15,2025-09-22,1,0.09122473572981211,conservative_stack,stack_from_backtest_mae,2.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,0.47328091420293694,conservative_stack,stack_from_backtest_mae,2.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,2.745055933491507,conservative_stack,stack_from_backtest_mae,2.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,2.4590688497636006,conservative_stack,stack_from_backtest_mae,2.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.09325640247424664,conservative_stack,stack_from_backtest_mae,2.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,1.3690545459618342,conservative_stack,stack_from_backtest_mae,2.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,6.541327183339169,conservative_stack,stack_from_backtest_mae,2.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,8.880711394577485,conservative_stack,stack_from_backtest_mae,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,2.5136357332097616,conservative_stack,stack_from_backtest_mae,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,10.788686308180061,conservative_stack,stack_from_backtest_mae,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,30.456621023493366,conservative_stack,stack_from_backtest_mae,2.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,40.838909581700364,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.19102218430993348,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,0.9729691402142342,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,5.981590640543863,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,4.656185832106322,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.47166745393599746,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,5.087581901637781,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,10.042644546959027,conservative_stack,stack_from_backtest_mae,2.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,16.358350973565756,conservative_stack,stack_from_backtest_mae,2.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.40163994179812784,conservative_stack,stack_from_backtest_mae,2.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,1.503383621163223,conservative_stack,stack_from_backtest_mae,2.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,3.332657141723484,conservative_stack,stack_from_backtest_mae,2.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,4.385953562044327,conservative_stack,stack_from_backtest_mae,2.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.3550408275864373,conservative_stack,stack_from_backtest_mae,2.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.29184901672863284,conservative_stack,stack_from_backtest_mae,2.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,0.486445490036928,conservative_stack,stack_from_backtest_mae,2.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,1.1019669619320374,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.15287755390860236,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,0.5099334623925091,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.2331923245546182,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,0.8359685873028219,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,0.3860496452271952,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,0.30552350880607226,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,0.5896343325381165,conservative_stack,stack_from_backtest_mae,2.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,1.134414938764214,conservative_stack,stack_from_backtest_mae,2.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,0.37085698823940916,conservative_stack,stack_from_backtest_mae,2.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.2751101970728388,conservative_stack,stack_from_backtest_mae,2.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,0.5040734303066527,conservative_stack,stack_from_backtest_mae,2.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,1.0262884816437983,conservative_stack,stack_from_backtest_mae,2.0,0.0
+BAR,Barishal,2025-09-15,2025-09-22,1,408.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,519.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,565.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,609.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,770.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,940.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,959.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,906.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,5457.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,6800.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,6445.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,6772.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,1065.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,1290.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,1197.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,1113.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,2213.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,2782.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,2571.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,2776.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,452.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,611.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,536.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,747.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,193.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,231.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,179.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,208.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,218.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,211.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,273.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,281.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,118.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,184.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,145.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,106.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,20.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,32.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,20.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,26.0,seasonal_naive_52,naive_same_week_last_year,3.0,0.0
+BAR,Barishal,2025-09-15,2025-09-22,1,0.0,residual_random_forest,trained_full_history,4.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,2.122373355170415,residual_random_forest,trained_full_history,4.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,17.946483532621052,residual_random_forest,trained_full_history,4.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,15.615678178174278,residual_random_forest,trained_full_history,4.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.0,residual_random_forest,trained_full_history,4.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,7.983280022590363,residual_random_forest,trained_full_history,4.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,44.56331465955518,residual_random_forest,trained_full_history,4.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,61.093276927721185,residual_random_forest,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,9.179665207661516,residual_random_forest,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,37.23344520031748,residual_random_forest,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,201.61923460384236,residual_random_forest,trained_full_history,4.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,273.0663359681819,residual_random_forest,trained_full_history,4.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.5644552155105008,residual_random_forest,trained_full_history,4.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,5.381891965607678,residual_random_forest,trained_full_history,4.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,40.601620548042405,residual_random_forest,trained_full_history,4.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,31.014480612043293,residual_random_forest,trained_full_history,4.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,2.1792819476706273,residual_random_forest,trained_full_history,4.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,12.133699595774173,residual_random_forest,trained_full_history,4.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,69.31747578724223,residual_random_forest,trained_full_history,4.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,114.37717708482884,residual_random_forest,trained_full_history,4.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,1.7436189227142174,residual_random_forest,trained_full_history,4.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,6.953269228432023,residual_random_forest,trained_full_history,4.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,21.975870679251244,residual_random_forest,trained_full_history,4.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,29.12078533510818,residual_random_forest,trained_full_history,4.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,1.4452464005016223,residual_random_forest,trained_full_history,4.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.8991157655914094,residual_random_forest,trained_full_history,4.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,1.9842147618593633,residual_random_forest,trained_full_history,4.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,5.919920125880616,residual_random_forest,trained_full_history,4.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.3876062530027746,residual_random_forest,trained_full_history,4.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,0.0,residual_random_forest,trained_full_history,4.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.3923918990518469,residual_random_forest,trained_full_history,4.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,4.264092513335216,residual_random_forest,trained_full_history,4.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,1.4452464005016223,residual_random_forest,trained_full_history,4.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,0.8991157655914094,residual_random_forest,trained_full_history,4.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,2.5533496824942845,residual_random_forest,trained_full_history,4.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,5.919920125880616,residual_random_forest,trained_full_history,4.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,1.4142100677601515,residual_random_forest,trained_full_history,4.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.8606995015600151,residual_random_forest,trained_full_history,4.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,2.284513053724759,residual_random_forest,trained_full_history,4.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,5.741005065209666,residual_random_forest,trained_full_history,4.0,0.0
+BAR,Barishal,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,0.0,residual_elastic_net_global,trained_full_history,5.0,0.0
+BAR,Barishal,2025-09-15,2025-09-22,1,0.46063922372191013,panel_hist_gbm,trained_full_history,6.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,1.6239889848972473,panel_hist_gbm,trained_full_history,6.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,2.1626691545364323,panel_hist_gbm,trained_full_history,6.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,5.219408390593558,panel_hist_gbm,trained_full_history,6.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.46806433996848607,panel_hist_gbm,trained_full_history,6.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,1.5677485425548663,panel_hist_gbm,trained_full_history,6.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,1.8341909884925256,panel_hist_gbm,trained_full_history,6.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,6.471624257560858,panel_hist_gbm,trained_full_history,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,5.95667858169806,panel_hist_gbm,trained_full_history,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,14.836892489953557,panel_hist_gbm,trained_full_history,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,16.165213664781096,panel_hist_gbm,trained_full_history,6.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,47.82464525320127,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.46932042780338235,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,1.5698102933309925,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,1.9312609125314202,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,5.415101730963682,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.46806433996848607,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,1.5848517562133815,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,1.8801605222405786,panel_hist_gbm,trained_full_history,6.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,7.278947073241614,panel_hist_gbm,trained_full_history,6.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.442720651323055,panel_hist_gbm,trained_full_history,6.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,1.5724816191948536,panel_hist_gbm,trained_full_history,6.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,1.7309367147736319,panel_hist_gbm,trained_full_history,6.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,5.065787210734795,panel_hist_gbm,trained_full_history,6.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.7269243272938354,panel_hist_gbm,trained_full_history,6.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,1.4803927607036587,panel_hist_gbm,trained_full_history,6.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,1.6602441378803816,panel_hist_gbm,trained_full_history,6.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,4.843063678665509,panel_hist_gbm,trained_full_history,6.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.4263318322413876,panel_hist_gbm,trained_full_history,6.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,1.4932058499535017,panel_hist_gbm,trained_full_history,6.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,1.6435758989500808,panel_hist_gbm,trained_full_history,6.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,4.429169687198837,panel_hist_gbm,trained_full_history,6.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,1.2426395247474333,panel_hist_gbm,trained_full_history,6.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,2.178362878089396,panel_hist_gbm,trained_full_history,6.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,1.8775645728118655,panel_hist_gbm,trained_full_history,6.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,5.77295719346452,panel_hist_gbm,trained_full_history,6.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,1.2519739146300837,panel_hist_gbm,trained_full_history,6.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,1.7660498050156597,panel_hist_gbm,trained_full_history,6.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,1.4446107625641786,panel_hist_gbm,trained_full_history,6.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,3.328586030777892,panel_hist_gbm,trained_full_history,6.0,0.0
+BAR,Barishal,2025-09-15,2025-09-22,1,0.7954844953197816,ar_tweedie_global,trained_full_history,7.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,0.9569167676679556,ar_tweedie_global,trained_full_history,7.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,1.081607468149781,ar_tweedie_global,trained_full_history,7.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,1.71339262085073,ar_tweedie_global,trained_full_history,7.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.813200736226647,ar_tweedie_global,trained_full_history,7.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,0.9961565958496317,ar_tweedie_global,trained_full_history,7.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,1.1417417216149917,ar_tweedie_global,trained_full_history,7.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,1.8258846482855295,ar_tweedie_global,trained_full_history,7.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,7.053686855211838,ar_tweedie_global,trained_full_history,7.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,8.685954990057056,ar_tweedie_global,trained_full_history,7.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,10.002837618021683,ar_tweedie_global,trained_full_history,7.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,15.709636342259602,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.7911622311484029,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,0.9882839367640547,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,1.1625892853925575,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,1.9013589772525912,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.7364073571178019,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,0.897379846725955,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,1.0332196623892747,ar_tweedie_global,trained_full_history,7.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,1.6525604235039941,ar_tweedie_global,trained_full_history,7.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.800775701223351,ar_tweedie_global,trained_full_history,7.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,0.9955738837143697,ar_tweedie_global,trained_full_history,7.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,1.1631606825598977,ar_tweedie_global,trained_full_history,7.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,1.8779937863804657,ar_tweedie_global,trained_full_history,7.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.782811335391625,ar_tweedie_global,trained_full_history,7.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.9837333615288457,ar_tweedie_global,trained_full_history,7.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,1.1468138844224274,ar_tweedie_global,trained_full_history,7.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,1.7684000350392688,ar_tweedie_global,trained_full_history,7.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.7325470611769764,ar_tweedie_global,trained_full_history,7.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,0.8829285140703134,ar_tweedie_global,trained_full_history,7.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.9960113090897711,ar_tweedie_global,trained_full_history,7.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,1.552124156674979,ar_tweedie_global,trained_full_history,7.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,0.8428456611487486,ar_tweedie_global,trained_full_history,7.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,1.0703085000290946,ar_tweedie_global,trained_full_history,7.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,1.2717134873342886,ar_tweedie_global,trained_full_history,7.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,1.982293650689933,ar_tweedie_global,trained_full_history,7.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,0.758452276458504,ar_tweedie_global,trained_full_history,7.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.9146735837068355,ar_tweedie_global,trained_full_history,7.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,1.0059801170686944,ar_tweedie_global,trained_full_history,7.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,1.4356280435821112,ar_tweedie_global,trained_full_history,7.0,0.0
+BAR,Barishal,2025-09-15,2025-09-22,1,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+BAR,Barishal,2025-09-15,2025-09-29,2,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+BAR,Barishal,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+BAR,Barishal,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-22,1,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+CHA,Chattogram,2025-09-15,2025-09-29,2,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+CHA,Chattogram,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-22,1,0.6144782849188355,residual_hist_gbm,trained_full_history,8.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-09-29,2,34.69243883098851,residual_hist_gbm,trained_full_history,8.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+COUNTRY_TOTAL,Bangladesh Total,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-22,1,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-09-29,2,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_DIV_OUT_METRO,Dhaka Division Outside Metro,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-22,1,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-09-29,2,28.600192717321285,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+DHA_METRO,Dhaka Metro,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+KHU,Khulna,2025-09-15,2025-09-22,1,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+KHU,Khulna,2025-09-15,2025-09-29,2,2.678883598198889,residual_hist_gbm,trained_full_history,8.0,0.0
+KHU,Khulna,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+KHU,Khulna,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-22,1,0.07069300382335525,residual_hist_gbm,trained_full_history,8.0,0.0
+MYM,Mymensingh,2025-09-15,2025-09-29,2,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+MYM,Mymensingh,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-22,1,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-09-29,2,3.4133625154683354,residual_hist_gbm,trained_full_history,8.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+RAJ,Rajshahi,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-22,1,0.27189264054774015,residual_hist_gbm,trained_full_history,8.0,0.0
+RAN,Rangpur,2025-09-15,2025-09-29,2,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+RAN,Rangpur,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-22,1,0.27189264054774015,residual_hist_gbm,trained_full_history,8.0,0.0
+SYL,Sylhet,2025-09-15,2025-09-29,2,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-06,3,0.0,residual_hist_gbm,trained_full_history,8.0,0.0
+SYL,Sylhet,2025-09-15,2025-10-13,4,0.0,residual_hist_gbm,trained_full_history,8.0,0.0

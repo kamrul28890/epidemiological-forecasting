@@ -1,0 +1,13 @@
+item,value
+Forecast target,Weekly dengue case counts
+Temporal grain,Weekly
+Spatial grain,geo_id
+Operational horizon,1 to 4 weeks ahead
+Experimental horizon,5 to 12 weeks ahead
+Primary KPI,Macro-averaged MAE across geography and horizon
+Secondary KPI,Macro-averaged RMSE
+Forecast strategy,"Direct multi-horizon, not recursive"
+Operational covariates,Case-history and calendar only
+Experimental covariates,"Case-history, calendar, and climate"
+Hierarchy repair,DHA_DIV replaced by DHA_DIV_OUT_METRO
+Evidence hierarchy,"Development, selection, and diagnostic windows"

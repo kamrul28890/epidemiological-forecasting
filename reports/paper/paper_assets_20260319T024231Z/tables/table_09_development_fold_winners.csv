@@ -1,0 +1,9 @@
+track,fold_id,split_group,model,role,n_groups,MAE_macro,RMSE_macro,bias_macro
+experimental,D1,development,seasonal_naive_52,val,72,39.89843964765598,76.34985001219829,39.85427673461729
+experimental,D2,development,seasonal_naive_52,val,72,1101.2649572649573,1358.4616405029929,1076.7948717948718
+experimental,D3,development,seasonal_naive_52,val,72,33.34188034188034,67.59644308871158,-19.23931623931624
+experimental,D4,development,persistence,val,72,342.099279835391,425.8751701893406,133.34207818930042
+operational,D1,development,persistence,val,36,24.84038631859284,50.97244658027863,15.732386194723151
+operational,D2,development,conservative_stack,val,36,452.7960827457508,548.2298629341424,-15.849838334267965
+operational,D3,development,panel_hist_gbm,val,36,15.94913304957596,26.323467390556186,-12.247618652806237
+operational,D4,development,conservative_stack,val,36,112.59446069741142,143.99115636479144,-37.26799439355541

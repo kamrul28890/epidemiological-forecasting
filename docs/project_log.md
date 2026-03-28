@@ -13,3 +13,15 @@
 - Paper asset bundle generated as `reports/paper/paper_assets_20260318T003344Z`.
 - First LaTeX manuscript draft added as `reports/paper/manuscript_draft.tex` and compiled to `reports/paper/manuscript_draft.pdf`.
 - Manuscript draft upgraded with literature-grounded framing, bibliography support in `reports/paper/references.bib`, and a clean compiled PDF build.
+- Operational improvement pass completed as `modeling_tracks_20260318T225154Z`, adding `residual_elastic_net_global` and `conservative_stack`.
+- New current operational forecast bundle generated as `operational_current_20260318T225245Z`, promoting `conservative_stack` as the primary model.
+- Locked-holdout and regime-feature pass completed as `modeling_tracks_20260318T230604Z`, adding a final untouched holdout split, regime-aware case features, and development-only ensemble weighting.
+- Holdout-aware operational forecast bundle generated as `operational_current_20260318T231014Z`, reverting the primary model recommendation to `persistence` after the locked holdout showed that the development-winning stack did not generalize.
+- Operational failure-mode analysis script added at `scripts/analysis/analyze_operational_failure_modes.py`, with the first diagnostic report written for `modeling_tracks_20260318T230604Z`.
+- Low-origin guardrail pass completed as `modeling_tracks_20260318T233354Z`, adding hurdle-style rebound shrinkage for challenger models in low-count and zero-run regimes.
+- Refreshed operational forecast bundle generated as `operational_current_20260318T233516Z`, keeping `persistence` as the primary model while making challenger forecasts more conservative after zero-count origins.
+- Evaluation protocol refrozen after confirming that no post-`2025-09-15` untouched case block exists in the current repository.
+- Refrozen split run completed as `modeling_tracks_20260318T234734Z`, separating `development`, `selection`, and `diagnostic` windows and retiring `H1` from final-holdout status.
+- New cautious forecast bundle generated as `operational_current_20260318T234853Z`, using the `selection` leaderboard for challenger ranking but keeping `persistence` as primary because no true untouched holdout remains.
+- Paper asset generator updated for the refrozen evidence hierarchy and a new manuscript asset bundle generated as `reports/paper/paper_assets_20260319T024231Z`.
+- Manuscript draft fully revised to align problem framing, EDA, model ladder, evaluation protocol, split-specific results, and current forecast policy with the refrozen evidence record, then recompiled successfully to `reports/paper/manuscript_draft.pdf`.

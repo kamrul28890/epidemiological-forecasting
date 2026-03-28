@@ -337,3 +337,273 @@ Expected outcome:
 
 - This is still a journal-agnostic manuscript draft.
 - Once a target journal is chosen, the next step should be porting the content into that journal's official LaTeX template and tightening the reference style, abstract structure, and submission metadata accordingly.
+
+## Operational Improvement Pass
+
+- Backtest run ID: `modeling_tracks_20260318T225154Z`
+- Improvement note: `reports/modeling/operational_improvement_pass_20260318.md`
+
+### What was added
+
+- `residual_elastic_net_global`
+- `conservative_stack`
+
+### Important modeling fix
+
+- Residual-model predictions are no longer clipped at zero before being added back to the persistence anchor.
+- That matters because residual models must be able to represent both rises and declines relative to the current week.
+
+### Result
+
+- `conservative_stack` is now the best operational validation model.
+- Operational validation MAE improved from `154.218` under persistence to `150.706`.
+- Operational validation RMSE improved from `206.390` under persistence to `195.994`.
+
+### Interpretation
+
+- This is the first tracked operational model that beats persistence overall.
+- The gain is moderate but real, and it is achieved with a deliberately conservative design.
+- The ensemble wins horizons 1 to 3, while persistence still wins horizon 4.
+- The elastic-net challenger is especially interesting on several lower-volume geographies, even though it is not yet robust enough overall to become the primary model.
+
+## Updated Current Operational Forecast
+
+- Forecast run ID: `operational_current_20260318T225245Z`
+- Forecast summary: `reports/forecasts/operational_current_operational_current_20260318T225245Z.md`
+
+### Forecasting decision
+
+- The primary operational model is now `conservative_stack`.
+- This replaces persistence as the promoted short-horizon model.
+
+### Current forecast interpretation
+
+- Latest modeled origin week: `2025-09-15`
+- Country-total primary forecast:
+  h1 = `8.4`,
+  h2 = `13.4`,
+  h3 = `30.3`,
+  h4 = `36.8`
+
+### Implication
+
+- The forecasting system has moved from
+  `"nothing beats persistence"`
+  to
+  `"a persistence-anchored conservative ensemble beats persistence overall"`.
+- That is an important result for both operational deployment and the paper narrative.
+
+## Locked Holdout and Regime-Feature Pass
+
+- Backtest run ID: `modeling_tracks_20260318T230604Z`
+- Interpretation note: `reports/modeling/holdout_regime_pass_20260318.md`
+
+### What changed
+
+- Added a locked holdout fold `H1` so model promotion could be checked on an untouched final window.
+- Added regime-aware case features:
+  recent sums, rolling standard deviations, recent growth, acceleration, outbreak flags, zero-run length, and weeks since last nonzero.
+- Increased the operational feature set from `17` to `32`.
+- Forced conservative-stack weights to be estimated from development folds only before being applied to the holdout.
+
+### Development result
+
+- `conservative_stack` improved strongly on development validation.
+- Development MAE improved from `154.218` under persistence to `138.655`.
+- The stack was best at horizons `1` to `4` on development folds.
+- On development averages it was best in `7` of `9` geographies.
+
+### Locked holdout result
+
+- The locked holdout reverses the promotion decision.
+- `persistence` is best overall on the operational holdout:
+  MAE `92.571`, RMSE `125.059`.
+- `conservative_stack` falls to second:
+  MAE `178.105`, RMSE `207.982`.
+- `persistence` wins all holdout operational horizons `1` to `4`.
+- `persistence` is best in `8` of `9` holdout geographies, with `seasonal_naive_52` best only in `SYL`.
+
+### Interpretation
+
+- The regime-aware challenger family learned real signal on development folds, but the gain did not survive the untouched final window.
+- The current challenger models are still too eager to predict rebound or continuation after low-count origins.
+- This makes the locked holdout result more important than the development leaderboard for operational deployment.
+- For the paper, this is a stronger result than a simple model win:
+  richer autoregressive features can improve development backtests, but persistence remains the most reliable operational model under a strict final-window test.
+
+## Holdout-Aware Current Operational Forecast
+
+- Forecast run ID: `operational_current_20260318T231014Z`
+- Forecast summary: `reports/forecasts/operational_current_operational_current_20260318T231014Z.md`
+
+### Forecasting decision
+
+- The primary operational model is again `persistence`.
+- This supersedes the earlier development-only promotion of `conservative_stack`.
+- The model choice now follows the locked holdout leaderboard rather than the development leaderboard.
+
+### Current forecast interpretation
+
+- Latest modeled origin week: `2025-09-15`
+- Country-total primary forecast:
+  h1 = `0.0`,
+  h2 = `0.0`,
+  h3 = `0.0`,
+  h4 = `0.0`
+
+### Implication
+
+- The honest production message is now:
+  `"development improvements are real, but the locked holdout still favors persistence"`.
+- That is operationally conservative, methodologically stronger, and more defensible in the manuscript.
+
+## Failure-Mode Analysis
+
+- Diagnostic script: `scripts/analysis/analyze_operational_failure_modes.py`
+- First diagnostic report: `reports/modeling/failure_mode_analysis_modeling_tracks_20260318T230604Z.md`
+
+### What this analysis added
+
+- segmented operational validation by origin-count bucket
+- zero-origin by-horizon breakdown
+- low-origin leaderboard
+- outbreak-flagged vs non-outbreak-flagged breakdown
+- holdout geography winners
+
+### Main diagnostic finding
+
+- The challenger family was losing most visibly after low-count and zero-count origins.
+- On the pre-guardrail holdout, `conservative_stack` low-origin MAE was `20.606`, and the tree-based residual models were much worse.
+- This gave us a concrete operational failure mode to target instead of guessing.
+
+## Low-Origin Guardrail Pass
+
+- Backtest run ID: `modeling_tracks_20260318T233354Z`
+- Interpretation note: `reports/modeling/low_origin_guardrail_pass_20260318.md`
+- Failure-mode report after changes: `reports/modeling/failure_mode_analysis_modeling_tracks_20260318T233354Z.md`
+
+### What changed
+
+- Added hurdle-style low-origin guardrails to the trainable operational challengers and the conservative stack.
+- The guardrail uses train-time low-origin behavior to shrink positive rebounds toward persistence and cap their size.
+- This was designed to reduce unrealistic rebound forecasts after zero-count and sparse-activity origins.
+
+### What improved
+
+- The targeted low-origin regime improved sharply on the holdout.
+- `conservative_stack` low-origin MAE improved from `20.606` to `9.441`.
+- `residual_random_forest` improved from `46.724` to `12.404`.
+- `residual_hist_gbm` improved from `54.539` to `12.586`.
+- On the strict zero-origin bucket, the challenger forecasts became much more conservative.
+
+### What did not change
+
+- Persistence still remains the best overall operational holdout model.
+- New holdout leaderboard:
+  `persistence` `92.571`,
+  `conservative_stack` `176.526`,
+  `residual_random_forest` `238.695`,
+  `residual_hist_gbm` `303.688`.
+- So the guardrail solves an important failure mode, but not the whole short-horizon forecasting problem.
+
+### Interpretation
+
+- The current modeling story is now more precise:
+  higher-capacity challengers need explicit rebound control in low-origin regimes,
+  and even after that correction, persistence remains the most reliable overall operational baseline.
+- This is a better scientific narrative than simply saying the challengers failed.
+
+### Important methodological note
+
+- Because this pass was informed by the locked holdout diagnostics, `H1` should no longer be treated as a fully untouched final test for downstream model-promotion claims.
+- If we continue tuning, we should re-freeze a new final evaluation window before making final paper claims about a promoted challenger.
+
+## Refreshed Current Operational Forecast
+
+- Forecast run ID: `operational_current_20260318T233516Z`
+- Forecast summary: `reports/forecasts/operational_current_operational_current_20260318T233516Z.md`
+
+### Forecasting decision
+
+- The primary operational model remains `persistence`.
+- The challenger forecasts are now more conservative because the low-origin guardrail is applied in the live forecast path too.
+
+### Current forecast interpretation
+
+- Latest modeled origin week: `2025-09-15`
+- Primary country-total forecast remains:
+  h1 = `0.0`,
+  h2 = `0.0`,
+  h3 = `0.0`,
+  h4 = `0.0`
+- The challenger country-total forecasts are now much smaller than in the previous run, especially for the conservative stack.
+
+## Evaluation Protocol Refreeze
+
+- Protocol note: `reports/modeling/evaluation_protocol_refreeze_20260318.md`
+- Refrozen run ID: `modeling_tracks_20260318T234734Z`
+- Refrozen forecast: `reports/forecasts/operational_current_operational_current_20260318T234853Z.md`
+
+### Why the refreeze was necessary
+
+- The case panel currently ends at `2025-09-15`.
+- After `H1` was used for post-holdout diagnostic refinement, it could no longer be described as a final untouched holdout.
+- There is no newer untouched case block currently available in the repository.
+
+### Active evidence hierarchy
+
+- `development`: `D1` to `D4`
+- `selection`: `S1`
+- `diagnostic`: `X1`
+- true untouched final holdout: currently unavailable
+
+### What the refrozen run says
+
+- On the operational `selection` window, several challengers beat persistence.
+- Best operational `selection` model:
+  `panel_hist_gbm`, MAE `18.429`, RMSE `36.923`.
+- On the operational `diagnostic` window, persistence still remains best:
+  MAE `92.571`, RMSE `125.059`.
+
+### Interpretation
+
+- The current evidence is now more honest and more structured.
+- We can say that challengers are promising on a fixed selection window.
+- We can also say that the most recent diagnostic window still favors persistence.
+- We cannot yet say that a challenger has won under a truly untouched post-tuning final evaluation.
+
+### Operational policy
+
+- The current forecast system may use the `selection` leaderboard to rank challengers.
+- But it should not auto-promote a challenger while no true untouched holdout exists.
+- So the primary operational model remains `persistence`.
+
+### Manuscript implication
+
+- Before submission, the manuscript should describe the current protocol as
+  `development + selection + diagnostic`,
+  not as
+  `development + untouched final holdout`.
+- A genuinely final promotion claim now requires new post-`2025-09-15` data or a newly frozen future lockbox.
+
+## Manuscript Revision Pass
+
+- A new paper asset bundle was generated at
+  `reports/paper/paper_assets_20260319T024231Z`.
+- The manuscript was then fully revised to reflect the refrozen evidence hierarchy rather than the earlier single-leaderboard storyline.
+
+### What the revised paper now says
+
+- The forecasting problem is framed explicitly as weekly multi-geography dengue case forecasting in Bangladesh.
+- The hierarchy repair, EDA findings, dependent variables, independent variables, and operational vs experimental scope are all described directly in the paper.
+- The results are split into `development`, `selection`, and `diagnostic` evidence tiers.
+- The operational conclusion is now explicitly conservative:
+  challengers look promising on `selection`, but `persistence` remains dominant on the latest `diagnostic` window.
+- The current forecast section now explains why the promoted primary model remains `persistence` despite challenger ranking from the `selection` window.
+
+### Main manuscript-level claim
+
+- The key contribution is no longer
+  `"a challenger beat persistence overall"`.
+- It is now
+  `"challenger gains are real in some windows, but they do not yet survive the latest diagnostic stress test, so persistence remains the appropriate operational baseline until a new untouched final block is available."`
